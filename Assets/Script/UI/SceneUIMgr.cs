@@ -29,7 +29,7 @@ public class SceneUIMgr : Singleton<SceneUIMgr>
         switch (sceneUIType)
         {
             case SceneUIType.LogOn:
-                obj = ResourcesMgr.Instance.Load(ResourcesMgr.ResourceType.UIScene,"UIRoot_LogOn");
+                obj = ResourcesMgr.Instance.Load(ResourcesMgr.ResourceType.UIScene,"UI_Root_LogOn");
                 break;
             case SceneUIType.Loading:
                 break;

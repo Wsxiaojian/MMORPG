@@ -34,7 +34,7 @@ public class WindowUIMgr : Singleton<WindowUIMgr>
         if (windowUIType == WindowUIType.None || m_DicWindows.ContainsKey(windowUIType)) return null;
 
 
-        GameObject obj = ResourcesMgr.Instance.Load(ResourcesMgr.ResourceType.UIWindow, string.Format("pan{0}", windowUIType), cache: true);
+        GameObject obj = ResourcesMgr.Instance.Load(ResourcesMgr.ResourceType.UIWindow, string.Format("pan_{0}", windowUIType), cache: true);
         if (obj == null) return null;
 
         UIWindowBase uIWindow = obj.GetComponent<UIWindowBase>();
@@ -68,7 +68,7 @@ public class WindowUIMgr : Singleton<WindowUIMgr>
         obj.transform.localEulerAngles = Vector3.zero;
         obj.transform.localScale = Vector3.one;
 
-        obj.SetActive(true);
+        obj.SetActive(false);
 
         //打开动画
         StartOpenAnim(uIWindow, true);

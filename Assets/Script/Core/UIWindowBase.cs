@@ -37,6 +37,7 @@ public class UIWindowBase : UIBase
     [HideInInspector]
     public WindowUIType NextWindowUIType;
 
+
     /// <summary>
     ///  关闭窗口
     /// </summary>
