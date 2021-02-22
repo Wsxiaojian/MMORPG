@@ -35,9 +35,17 @@ public class UIBase : MonoBehaviour
         OnStart();
     }
 
+    private void OnDestroy()
+    {
+        BeforeDestroy();
+    }
+
 
     protected virtual void OnAwake(){ }
     protected virtual void OnStart(){ }
+
+    protected virtual void BeforeDestroy(){ }
+
 
     protected virtual void OnBtnClick(Button btn) { }
 }

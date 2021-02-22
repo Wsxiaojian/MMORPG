@@ -1,14 +1,15 @@
 //***********************************************************
-// 描述：这是一个功能代码
+// 描述：UI窗口基类
 // 作者：fanwei 
 // 创建时间：2021-02-20 17:00:06
 // 版 本：1.0
 // 备注：
 //***********************************************************
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+///   UI窗口基类
+/// </summary>
 public class UIWindowBase : UIBase
 {
     /// <summary>
@@ -28,10 +29,28 @@ public class UIWindowBase : UIBase
     /// 当前UI 的类型
     /// </summary>
     [HideInInspector]
-    public WindowUIMgr.WindowUIType CurrentUIType;
+    public WindowUIType CurrentUIType;
 
     /// <summary>
     /// 下一个打开的窗口
     /// </summary>
-    public WindowUIMgr.WindowUIType NextWindowUIType;
+    [HideInInspector]
+    public WindowUIType NextWindowUIType;
+
+    /// <summary>
+    ///  关闭窗口
+    /// </summary>
+    protected virtual void Close()
+    {
+        WindowUIMgr.Instance.CloseWindow(CurrentUIType);
+    }
+
+    /// <summary>
+    /// 销毁前  跳转下一个窗口
+    /// </summary>
+    protected override void BeforeDestroy()
+    {
+        if (NextWindowUIType == WindowUIType.None) return;
+        WindowUIMgr.Instance.OpenWindow(NextWindowUIType);
+    }
 }

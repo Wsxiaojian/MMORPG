@@ -67,3 +67,45 @@ public enum WindowShowStyle
     FromRight,
 }
 #endregion
+
+#region 场景UI类型 SceneUIType
+/// <summary>
+/// 场景UI类型
+/// </summary>
+public enum SceneUIType
+{
+    /// <summary>
+    /// 登陆注册
+    /// </summary>
+    LogOn,
+    /// <summary>
+    /// 加载场景
+    /// </summary>
+    Loading,
+    /// <summary>
+    /// 主城
+    /// </summary>
+    MainCity,
+}
+#endregion
+
+#region 窗口UI类型 WindowUIType
+/// <summary>
+/// 窗口UI类型
+/// </summary>
+public enum WindowUIType
+{
+    /// <summary>
+    /// 空
+    /// </summary>
+    None,
+    /// <summary>
+    /// 登陆
+    /// </summary>
+    LogOn,
+    /// <summary>
+    /// 注册
+    /// </summary>
+    Reg,
+}
+#endregion

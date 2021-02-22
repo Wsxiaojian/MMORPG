@@ -11,27 +11,36 @@ using UnityEngine;
 
 public class SceneUIMgr : Singleton<SceneUIMgr>
 {
-    /// <summary>
-    /// 窗口UI类型
-    /// </summary>
-    public enum SceneUIType
-    {
-        /// <summary>
-        /// 登陆注册
-        /// </summary>
-        LogOn,
-        /// <summary>
-        /// 加载场景
-        /// </summary>
-        Loading,
-        /// <summary>
-        /// 主城
-        /// </summary>
-        MainCity,
-    }
 
+    /// <summary>
+    /// 当前UIscene
+    /// </summary>
+    public UISceneBase CurUIScene;
+
+
+    /// <summary>
+    /// 加载场景UI
+    /// </summary>
+    /// <param name="sceneUIType"></param>
+    /// <returns></returns>
     public GameObject LoadSceneUI(SceneUIType sceneUIType)
     {
-        return null;
+        GameObject obj = null;
+        switch (sceneUIType)
+        {
+            case SceneUIType.LogOn:
+                obj = ResourcesMgr.Instance.Load(ResourcesMgr.ResourceType.UIScene,"UIRoot_LogOn");
+                break;
+            case SceneUIType.Loading:
+                break;
+            case SceneUIType.MainCity:
+                break;
+        }
+
+        if (obj == null) return null;
+
+        CurUIScene = obj.GetComponent<UISceneBase>();
+
+        return obj;
     }
 }
