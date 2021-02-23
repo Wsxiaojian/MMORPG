@@ -34,6 +34,7 @@ public class SceneUIMgr : Singleton<SceneUIMgr>
             case SceneUIType.Loading:
                 break;
             case SceneUIType.MainCity:
+                obj = ResourcesMgr.Instance.Load(ResourcesMgr.ResourceType.UIScene, "UI_Root_City");
                 break;
         }
 

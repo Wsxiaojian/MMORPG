@@ -6,6 +6,72 @@
 // 备注：
 //***********************************************************
 
+#region 场景UI类型 SceneUIType
+/// <summary>
+/// 场景类型
+/// </summary>
+public enum SceneType
+{
+    /// <summary>
+    /// 登陆注册
+    /// </summary>
+    LogOn,
+    /// <summary>
+    /// 加载场景
+    /// </summary>
+    Loading,
+    /// <summary>
+    /// 主城
+    /// </summary>
+    MainCity,
+}
+#endregion
+
+#region 场景UI类型 SceneUIType
+/// <summary>
+/// 场景UI类型
+/// </summary>
+public enum SceneUIType
+{
+    /// <summary>
+    /// 登陆注册
+    /// </summary>
+    LogOn,
+    /// <summary>
+    /// 加载场景
+    /// </summary>
+    Loading,
+    /// <summary>
+    /// 主城
+    /// </summary>
+    MainCity,
+}
+#endregion
+
+#region 窗口UI类型 WindowUIType
+/// <summary>
+/// 窗口UI类型
+/// </summary>
+public enum WindowUIType
+{
+    /// <summary>
+    /// 空
+    /// </summary>
+    None,
+    /// <summary>
+    /// 登陆
+    /// </summary>
+    LogOn,
+    /// <summary>
+    /// 注册
+    /// </summary>
+    Reg,
+    /// <summary>
+    /// 角色信息窗口
+    /// </summary>
+    RoleInfo,
+}
+#endregion
 #region 窗口挂载点类型 WindowUIContainerType
 /// <summary>
 /// 窗口挂载点类型
@@ -68,44 +134,3 @@ public enum WindowShowStyle
 }
 #endregion
 
-#region 场景UI类型 SceneUIType
-/// <summary>
-/// 场景UI类型
-/// </summary>
-public enum SceneUIType
-{
-    /// <summary>
-    /// 登陆注册
-    /// </summary>
-    LogOn,
-    /// <summary>
-    /// 加载场景
-    /// </summary>
-    Loading,
-    /// <summary>
-    /// 主城
-    /// </summary>
-    MainCity,
-}
-#endregion
-
-#region 窗口UI类型 WindowUIType
-/// <summary>
-/// 窗口UI类型
-/// </summary>
-public enum WindowUIType
-{
-    /// <summary>
-    /// 空
-    /// </summary>
-    None,
-    /// <summary>
-    /// 登陆
-    /// </summary>
-    LogOn,
-    /// <summary>
-    /// 注册
-    /// </summary>
-    Reg,
-}
-#endregion

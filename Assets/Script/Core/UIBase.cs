@@ -28,7 +28,8 @@ public class UIBase : MonoBehaviour
         {
             for (int i = 0; i < buttons.Length; i++)
             {
-                OnBtnClick(buttons[i]);
+                Button btn = buttons[i];
+                btn.onClick.AddListener(() => OnBtnClick(btn) );
             }
         }
 

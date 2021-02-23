@@ -51,6 +51,7 @@ public class UIWindowBase : UIBase
     /// </summary>
     protected override void BeforeDestroy()
     {
+        LayerUIMgr.Instance.CheckOpenWindow();
         if (NextWindowUIType == WindowUIType.None) return;
         WindowUIMgr.Instance.OpenWindow(NextWindowUIType);
     }
