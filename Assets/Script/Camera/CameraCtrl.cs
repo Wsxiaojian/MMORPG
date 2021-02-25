@@ -9,6 +9,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 摄像机控制
+/// </summary>
 public class CameraCtrl : MonoBehaviour
 {
     /// <summary>

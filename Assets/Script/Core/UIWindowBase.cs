@@ -16,10 +16,12 @@ public class UIWindowBase : UIBase
     /// 窗口挂载点
     /// </summary>
     public WindowUIContainerType WindowUIContainerType;
+
     /// <summary>
     /// 窗口动画类型
     /// </summary>
     public WindowShowStyle WindowShowStyle;
+
     /// <summary>
     /// 动画持续时间
     /// </summary>

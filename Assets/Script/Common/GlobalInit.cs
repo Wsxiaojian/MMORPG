@@ -20,7 +20,6 @@ public class GlobalInit : MonoBehaviour
     /// 密码
     /// </summary>
     public const string MMO_PWD= "MMO_PWD";
-
     #endregion
 
 
@@ -32,6 +31,7 @@ public class GlobalInit : MonoBehaviour
 
 
     public static GlobalInit  Instance;
+
 
     private void Awake()
     {

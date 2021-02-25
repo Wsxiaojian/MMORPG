@@ -1,20 +1,32 @@
 //***********************************************************
-// 描述：这是一个功能性代码
+// 描述：UI层级管理
 // 作者：fanwei 
 // 创建时间：2021-02-23 09:46:12
 // 版本：1.0
 // 备注：
 //***********************************************************
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// UI层级管理 用于设置窗口层级
+/// </summary>
 public class LayerUIMgr : Singleton<LayerUIMgr>
 {
     /// <summary>
     /// 初始 layerIndex
     /// </summary>
     private int m_CurLayerIndex = 50;
+
+    /// <summary>
+    /// 检查当前打开窗口数量
+    /// </summary>
+    public void CheckOpenWindow()
+    {
+        if(WindowUIMgr.Instance.OpenWindowNum == 0)
+        {
+            ResetLayer();
+        }
+    }
 
     /// <summary>
     /// 重置层级
@@ -24,13 +36,6 @@ public class LayerUIMgr : Singleton<LayerUIMgr>
         m_CurLayerIndex = 50;
     }
 
-    public void CheckOpenWindow()
-    {
-        if(WindowUIMgr.Instance.OpenWindowNum == 0)
-        {
-            ResetLayer();
-        }
-    }
 
     /// <summary>
     /// 设置UI层级

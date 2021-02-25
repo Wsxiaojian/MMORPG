@@ -1,5 +1,5 @@
 //***********************************************************
-// 描述：这是一个功能性代码
+// 描述：主场场景UI控制
 // 作者：fanwei 
 // 创建时间：2021-02-23 20:13:15
 // 版本：1.0
@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 主场场景UI控制
+/// </summary>
 public class UISceneCityCtrl : UISceneBase
 {
    

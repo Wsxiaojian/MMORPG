@@ -1,15 +1,17 @@
 //***********************************************************
-// 描述：这是一个功能性代码
+// 描述：loading场景管理
 // 作者：fanwei 
 // 创建时间：2021-02-23 13:46:53
 // 版本：1.0
 // 备注：
 //***********************************************************
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// loading场景管理
+/// </summary>
 public class LoadingSceneCtrl : MonoBehaviour
 {
     /// <summary>

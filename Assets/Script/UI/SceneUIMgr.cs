@@ -1,5 +1,5 @@
 //***********************************************************
-// 描述：这是一个功能代码
+// 描述：场景UI加载管理
 // 作者：fanwei 
 // 创建时间：2021-02-20 17:06:03
 // 版 本：1.0
@@ -9,6 +9,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 场景UI加载管理
+/// </summary>
 public class SceneUIMgr : Singleton<SceneUIMgr>
 {
 
@@ -32,6 +35,7 @@ public class SceneUIMgr : Singleton<SceneUIMgr>
                 obj = ResourcesMgr.Instance.Load(ResourcesMgr.ResourceType.UIScene,"UI_Root_LogOn");
                 break;
             case SceneUIType.Loading:
+
                 break;
             case SceneUIType.MainCity:
                 obj = ResourcesMgr.Instance.Load(ResourcesMgr.ResourceType.UIScene, "UI_Root_City");

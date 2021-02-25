@@ -1,11 +1,10 @@
 //***********************************************************
-// 描述：这是一个功能代码
+// 描述：窗口UI管理器
 // 作者：fanwei 
 // 创建时间：2021-02-20 17:05:52
 // 版 本：1.0
 // 备注：
 //***********************************************************
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -32,6 +31,7 @@ public class WindowUIMgr : Singleton<WindowUIMgr>
         }
     }
 
+    #region 打开/关闭一个窗口 
     /// <summary>
     /// 打开一个窗口
     /// </summary>
@@ -47,6 +47,7 @@ public class WindowUIMgr : Singleton<WindowUIMgr>
         UIWindowBase uIWindow;
         if ( m_DicWindows.ContainsKey(windowUIType) ==false)
         {
+            //窗口命名规则需要统一 “ pan_ + 窗口类型枚举名称 ”
             obj =  ResourcesMgr.Instance.Load(ResourcesMgr.ResourceType.UIWindow, string.Format("pan_{0}", windowUIType), cache: true);
 
             if (obj == null) return null;
@@ -85,7 +86,7 @@ public class WindowUIMgr : Singleton<WindowUIMgr>
             obj.SetActive(false);
 
             //打开动画
-            StartOpenAnim(uIWindow, true);
+            StarWindowAnim(uIWindow, true);
 
         }
         else
@@ -108,24 +109,10 @@ public class WindowUIMgr : Singleton<WindowUIMgr>
         if (m_DicWindows.ContainsKey(windowUIType) == false) return;
 
         //关闭
-        StartOpenAnim(m_DicWindows[windowUIType], false);
+        StarWindowAnim(m_DicWindows[windowUIType], false);
     }
 
-
-    /// <summary>
-    /// 删除窗口
-    /// </summary>
-    /// <param name="uIWindow"></param>
-    private void DestoryWindowUI(UIWindowBase uIWindow)
-    {
-        if (m_DicWindows.ContainsKey(uIWindow.CurrentUIType))
-        {
-            m_DicWindows.Remove(uIWindow.CurrentUIType);
-        }
-
-        //移除
-        Object.DestroyImmediate(uIWindow.gameObject);
-    }
+    #endregion
 
     #region 打开UI窗口动画 StartOpenAnim
     /// <summary>
@@ -133,7 +120,7 @@ public class WindowUIMgr : Singleton<WindowUIMgr>
     /// </summary>
     /// <param name="uIWindow"></param>
     /// <param name="isOpen"></param>
-    private void StartOpenAnim(UIWindowBase uIWindow , bool isOpen)
+    private void StarWindowAnim(UIWindowBase uIWindow , bool isOpen)
     {
         switch (uIWindow.WindowShowStyle)
         {
@@ -160,6 +147,7 @@ public class WindowUIMgr : Singleton<WindowUIMgr>
 
     #endregion
 
+    #region 窗口出现/关闭动画效果实现
     /// <summary>
     /// 正常 无动画
     /// </summary>
@@ -188,20 +176,21 @@ public class WindowUIMgr : Singleton<WindowUIMgr>
         {
             uIWindow.gameObject.SetActive(true);
             uIWindow.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-            uIWindow.transform.DOScale(Vector3.one, uIWindow.Duration).SetEase(GlobalInit.Instance.UIAnimCurve);
+            uIWindow.transform.DOScale(Vector3.one, uIWindow.Duration)
+                .SetEase(GlobalInit.Instance.UIAnimCurve);
         }
         else
         {
-            uIWindow.transform.DOScale(Vector3.zero, uIWindow.Duration).SetEase(GlobalInit.Instance.UIAnimCurve).OnComplete(
-                () =>
-                {
+            uIWindow.transform.DOScale(Vector3.zero, uIWindow.Duration)
+                .SetEase(GlobalInit.Instance.UIAnimCurve)
+                .OnComplete(() => {
                     DestoryWindowUI(uIWindow);
                 });
         }
     }
 
     /// <summary>
-    /// 各个方向飞入
+    /// 上下左右各个方向飞入
     /// </summary>
     /// <param name="uIWindow"></param>
     /// <param name="type">0表示从上边  1表示从下边 2表示从左边 3表示从右边</param>
@@ -210,23 +199,27 @@ public class WindowUIMgr : Singleton<WindowUIMgr>
     {
         if (isOpen)
         {
-            uIWindow.gameObject.SetActive(true);
+            Vector3 originPos = Vector3.zero;
             switch (type)
             {
                 case 0:
-                    uIWindow.transform.localPosition = new Vector3(0, 1000, 0);
+                    originPos = new Vector3(0, 1000, 0);
                     break;
                 case 1:
-                    uIWindow.transform.localPosition = new Vector3(0, -1000, 0);
+                    originPos = new Vector3(0, -1000, 0);
                     break;
                 case 2:
-                    uIWindow.transform.localPosition = new Vector3(-1400, 0, 0);
+                    originPos = new Vector3(-1400, 0, 0);
                     break;
                 case 3:
-                    uIWindow.transform.localPosition = new Vector3(1400, 0, 0);
+                    originPos = new Vector3(1400, 0, 0);
                     break;
             }
-            uIWindow.transform.DOLocalMove(Vector3.zero, uIWindow.Duration).SetEase(GlobalInit.Instance.UIAnimCurve);
+
+            uIWindow.gameObject.SetActive(true);
+            uIWindow.transform.localPosition = originPos;
+            uIWindow.transform.DOLocalMove(Vector3.zero, uIWindow.Duration)
+                .SetEase(GlobalInit.Instance.UIAnimCurve);
         }
         else{
             Vector3 targetPos =Vector3.zero;
@@ -245,11 +238,29 @@ public class WindowUIMgr : Singleton<WindowUIMgr>
                     targetPos = new Vector3(1400, 0, 0);
                     break;
             }
-            uIWindow.transform.DOLocalMove(targetPos, uIWindow.Duration).SetEase(GlobalInit.Instance.UIAnimCurve).OnComplete(
-                () =>
-                {
+            uIWindow.transform.DOLocalMove(targetPos, uIWindow.Duration)
+                .SetEase(GlobalInit.Instance.UIAnimCurve)
+                .OnComplete(() => {
                     DestoryWindowUI(uIWindow);
                 });
         }
     }
+    #endregion
+
+    #region 销毁窗口
+    /// <summary>
+    /// 删除窗口
+    /// </summary>
+    /// <param name="uIWindow"></param>
+    private void DestoryWindowUI(UIWindowBase uIWindow)
+    {
+        if (m_DicWindows.ContainsKey(uIWindow.CurrentUIType))
+        {
+            m_DicWindows.Remove(uIWindow.CurrentUIType);
+        }
+
+        //移除
+        Object.DestroyImmediate(uIWindow.gameObject);
+    }
+    #endregion
 }
