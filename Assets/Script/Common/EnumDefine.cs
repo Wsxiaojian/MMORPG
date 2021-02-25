@@ -6,6 +6,19 @@
 // 备注：
 //***********************************************************
 
+#region
+public enum RoleStateType
+{
+    Idle =1,
+    Run =2,
+    Attack =3,
+    Hurt = 4,
+    Die =5
+}
+
+#endregion
+
+
 #region 场景UI类型 SceneUIType
 /// <summary>
 /// 场景类型

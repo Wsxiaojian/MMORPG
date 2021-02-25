@@ -20,6 +20,26 @@ public class RoleCtrl : MonoBehaviour
 
     private float m_RotateSpeed;
 
+    /// <summary>
+    /// 动画机
+    /// </summary>
+    public Animator Animator;
+    
+    /// <summary>
+    /// 角色状态机
+    /// </summary>
+    private RoleFSMMgr m_RoleFSMMgr;
+    /// <summary>
+    /// 角色Ai控制
+    /// </summary>
+    private IRoleAI m_RoleAI;
+    /// <summary>
+    /// 角色信息
+    /// </summary>
+    private RoleInfo m_RoleInfo;
+
+
+
     private void Start()
     {
         m_CharacterController = GetComponent<CharacterController>();
@@ -109,4 +129,15 @@ public class RoleCtrl : MonoBehaviour
             CameraCtrl.Instance.SetCameraZoom(1);
         }
     }
+
+
+
+    public void Init(RoleInfo roleInfo, IRoleAI roleAI)
+    {
+        m_RoleInfo = roleInfo;
+        m_RoleAI = roleAI;
+
+        m_RoleFSMMgr = new RoleFSMMgr(this);
+    }
+
 }

@@ -13,11 +13,11 @@ public class ScriptCreateInit : UnityEditor.AssetModificationProcessor
         {
             string strContent =
             "//***********************************************************\r\n"
-            + "// ÃèÊö£ºÕâÊÇÒ»¸ö¹¦ÄÜĞÔ´úÂë\r\n"
-            + "// ×÷Õß£º#AuthorName# \r\n"
-            + "// ´´½¨Ê±¼ä£º#CreateTime#\r\n"
-            + "// °æ±¾£º1.0\r\n"
-            + "// ±¸×¢£º\r\n"
+            + "// æè¿°ï¼š\r\n"
+            + "// ä½œè€…ï¼š#AuthorName# \r\n"
+            + "// åˆ›å»ºæ—¶é—´ï¼š#CreateTime# \r\n"
+            + "// ç‰ˆæœ¬ï¼š1.0 \r\n"
+            + "// å¤‡æ³¨ï¼š\r\n"
             + "//***********************************************************\r\n";
             strContent = strContent.Replace("#AuthorName#", "fanwei").Replace("#CreateTime#", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             strContent += File.ReadAllText(path);
