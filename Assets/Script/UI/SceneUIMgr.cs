@@ -19,7 +19,7 @@ public class SceneUIMgr : Singleton<SceneUIMgr>
     /// 当前UIscene
     /// </summary>
     public UISceneBase CurUIScene;
-
+    
 
     /// <summary>
     /// 加载场景UI

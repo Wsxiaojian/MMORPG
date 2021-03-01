@@ -1,24 +1,24 @@
 //***********************************************************
-// 描述：这是一个功能代码
+// 描述：
 // 作者：fanwei 
-// 创建时间：2021-02-20 17:00:16
-// 版 本：1.0
+// 创建时间：2021-03-01 11:17:28 
+// 版本：1.0 
 // 备注：
 //***********************************************************
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UISceneBase : UIBase
+public class RoleHeadBarRoot : MonoBehaviour
 {
     /// <summary>
-    /// 中心挂载点
+    /// 
     /// </summary>
-    public Transform Center_Container;
+    public static RoleHeadBarRoot Instance;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
 
-    /// <summary>
-    /// UI摄像机
-    /// </summary>
-    public Camera UICamera;
 }

@@ -112,6 +112,9 @@ public class UIWindowRegCtrl : UIWindowBase
         PlayerPrefs.SetString(GlobalInit.MMO_NICKNAME, nickName);
         PlayerPrefs.SetString(GlobalInit.MMO_PWD, pwd);
 
+        //当前玩家信息
+        GlobalInit.Instance.CurNickName = nickName;
+
         //切换场景
         SceneMgr.Instance.LoadMainCity();
     }

@@ -52,8 +52,18 @@ public class RoleFSMMgr
         m_DicRoleStates.Add(RoleStateType.Attack, new RoleStateAttack(this));
         m_DicRoleStates.Add(RoleStateType.Hurt, new RoleStateHurt(this));
         m_DicRoleStates.Add(RoleStateType.Die, new RoleStateDie(this));
+
+        if(CurRoleStateType != RoleStateType.None)
+        {
+            CurRoleState = m_DicRoleStates[CurRoleStateType];
+        }
     }
 
+    public void OnUpdate()
+    {
+        if (CurRoleState != null)
+            CurRoleState.OnUpdate();
+    }
 
     /// <summary>
     /// 改变当前状态

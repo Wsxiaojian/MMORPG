@@ -16,6 +16,9 @@ using UnityEngine.UI;
 public class UISceneCityCtrl : UISceneBase
 {
    
+
+
+
     protected override void OnBtnClick(Button btn)
     {
         base.OnBtnClick(btn);

@@ -6,16 +6,64 @@
 // 备注：
 //***********************************************************
 
-#region
-public enum RoleStateType
+#region 角色动画相关
+/// <summary>
+/// 角色类型
+/// </summary>
+public enum RoleType
 {
-    Idle =1,
-    Run =2,
-    Attack =3,
-    Hurt = 4,
-    Die =5
+    /// <summary>
+    /// 未设置
+    /// </summary>
+    None,
+    /// <summary>
+    /// 主角
+    /// </summary>
+    MainPlayer,
+    /// <summary>
+    /// 怪
+    /// </summary>
+    Monster,
 }
 
+/// <summary>
+/// 角色状态
+/// </summary>
+public enum RoleStateType
+{
+    None =0,
+    Idle = 1,
+    Run = 2,
+    Attack = 3,
+    Hurt = 4,
+    Die = 5
+}
+/// <summary>
+/// 角色动画名称
+/// </summary>
+public enum RoleAnimName
+{
+    Idle_Normal,
+    Idle_Fight,
+    PhyAttack1,
+    PhyAttack2,
+    PhyAttack3,
+    Run,
+    Hurt,
+    Die
+}
+/// <summary>
+/// 转换参数名称
+/// </summary>
+public enum TransToName
+{
+    ToIdle,
+    ToRun,
+    ToHurt,
+    ToDie,
+    ToPhyAttack,
+    CurState,
+}
 #endregion
 
 

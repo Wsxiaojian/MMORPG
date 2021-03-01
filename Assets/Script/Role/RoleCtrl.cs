@@ -11,20 +11,25 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class RoleCtrl : MonoBehaviour
 {
-    CharacterController m_CharacterController;
+    /// <summary>
+    /// 角色控制器
+    /// </summary>
+    public CharacterController CharacterController;
+    /// <summary>
+    /// 移动速度
+    /// </summary>
+    public float MoveSpeed;
+    /// <summary>
+    /// 目标点
+    /// </summary>
+    public Vector3 TargetPos;
 
-    private Vector3 m_TargetPos;
-    private Quaternion m_TargetRotate;
-    [SerializeField]
-    private float m_MoveSpeed;
-
-    private float m_RotateSpeed;
 
     /// <summary>
     /// 动画机
     /// </summary>
     public Animator Animator;
-    
+
     /// <summary>
     /// 角色状态机
     /// </summary>
@@ -32,112 +37,129 @@ public class RoleCtrl : MonoBehaviour
     /// <summary>
     /// 角色Ai控制
     /// </summary>
-    private IRoleAI m_RoleAI;
+    private IRoleAI m_CurRoleAI;
     /// <summary>
     /// 角色信息
     /// </summary>
-    private RoleInfo m_RoleInfo;
+    private RoleInfo m_CurRoleInfo;
+    /// <summary>
+    /// 角色类型
+    /// </summary>
+    private RoleType m_RoleType = RoleType.None;
 
+
+    /// <summary>
+    /// 头顶点
+    /// </summary>
+    [SerializeField]
+    private Transform m_HeadBarPos;
+    /// <summary>
+    /// 头顶Bar显示控制
+    /// </summary>
+    private RoleHeadBarCtrl m_RoleHeadBarCtrl;
 
 
     private void Start()
     {
-        m_CharacterController = GetComponent<CharacterController>();
+        CharacterController = GetComponent<CharacterController>();
 
-        m_MoveSpeed = 5;
+        MoveSpeed = 5f;
+
+        m_RoleFSMMgr = new RoleFSMMgr(this);
+
     }
 
 
     private void Update()
     {
-        if(Input.GetMouseButtonDown(0) || Input.touchCount == 1)
+        if (m_CurRoleAI != null)
+            m_CurRoleAI.DoAI();
+        if (m_RoleFSMMgr != null)
+            m_RoleFSMMgr.OnUpdate();
+
+
+
+        if (CharacterController.isGrounded == false)
         {
-
-            //移动到目标点
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitInfo;
-            if(Physics.Raycast(ray,out hitInfo))
-            {
-                if (hitInfo.collider.gameObject.name.Equals("Ground",System.StringComparison.CurrentCultureIgnoreCase))
-                {
-                    m_TargetPos = hitInfo.point;
-                    m_RotateSpeed = 0;
-                }
-            }
+            CharacterController.Move(transform.position + new Vector3(0, -100, 0) - transform.position);
         }
+        
 
-        if (m_CharacterController.isGrounded == false)
-        {
-            m_CharacterController.Move(transform.position + new Vector3(0, -100, 0) - transform.position);
-        }
-
-
-        if(m_TargetPos!= Vector3.zero)
-        {
-            if (Vector3.Distance(transform.position, m_TargetPos) > 0.1f)
-            {
-                //方向
-                Vector3 direction = (m_TargetPos - transform.position).normalized;
-                direction.y = 0f;
-                direction = direction * Time.deltaTime * m_MoveSpeed;
-
-                //转向
-                if (m_RotateSpeed < 1)
-                {
-                    m_RotateSpeed += 5f * Time.deltaTime;
-                    m_TargetRotate = Quaternion.LookRotation(direction);
-                    transform.rotation = Quaternion.Lerp(transform.rotation, m_TargetRotate, m_RotateSpeed);
-                }
-
-                //移动
-                m_CharacterController.Move(direction);
-            }
-        }
-
-        CameraMove();
-    }
-
-    private void CameraMove()
-    {
         if (CameraCtrl.Instance == null) return;
-
         CameraCtrl.Instance.transform.position = transform.position;
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            CameraCtrl.Instance.SetCameraUp(0);
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            CameraCtrl.Instance.SetCameraUp(1);
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            CameraCtrl.Instance.SetCameraRotate(0);
-          
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            CameraCtrl.Instance.SetCameraRotate(1);
-        }
-        else if (Input.GetKey(KeyCode.I))
-        {
-            CameraCtrl.Instance.SetCameraZoom(0);
-        }
-        else if (Input.GetKey(KeyCode.K))
-        {
-            CameraCtrl.Instance.SetCameraZoom(1);
-        }
     }
 
 
-
-    public void Init(RoleInfo roleInfo, IRoleAI roleAI)
+    /// <summary>
+    /// 初始化角色信息
+    /// </summary>
+    /// <param name="roleInfo"></param>
+    /// <param name="roleAI"></param>
+    public void Init(RoleType roleType,RoleInfo roleInfo, IRoleAI roleAI)
     {
-        m_RoleInfo = roleInfo;
-        m_RoleAI = roleAI;
+        m_RoleType = roleType;
+        m_CurRoleInfo = roleInfo;
+        m_CurRoleAI = roleAI;
 
         m_RoleFSMMgr = new RoleFSMMgr(this);
+
+
+        //加载头顶信息栏
+        InitRoleHeadBar();
     }
 
+    /// <summary>
+    /// 初始化角色头顶信息
+    /// </summary>
+    private void InitRoleHeadBar()
+    {
+        if (RoleHeadBarRoot.Instance == null) return;
+        if (m_CurRoleInfo == null) return;
+        if (m_HeadBarPos == null) return;
+
+        GameObject roleHeadBar = ResourcesMgr.Instance.Load(ResourcesMgr.ResourceType.UIOther, "RoleHeadBar", cache: true);
+        roleHeadBar.transform.SetParent(RoleHeadBarRoot.Instance.transform);
+        roleHeadBar.transform.localPosition = Vector3.zero;
+        roleHeadBar.transform.localScale = Vector3.one;
+
+        m_RoleHeadBarCtrl = roleHeadBar.GetComponent<RoleHeadBarCtrl>();
+
+        //初始化
+        m_RoleHeadBarCtrl.Init(m_HeadBarPos, m_CurRoleInfo.RoleNickName,m_RoleType!=RoleType.MainPlayer);
+    }
+
+
+
+    public void DoIdle()
+    {
+        m_RoleFSMMgr.ChangeState(RoleStateType.Idle);
+    }
+    
+    /// <summary>
+    /// 移动到目标点
+    /// </summary>
+    /// <param name="targetPos"></param>
+    public void DoMove(Vector3 targetPos)
+    {
+        if (targetPos != Vector3.zero)
+        {
+            TargetPos = targetPos;
+            m_RoleFSMMgr.ChangeState(RoleStateType.Run);
+        }
+    }
+
+    public void DoHurt()
+    {
+        m_RoleFSMMgr.ChangeState(RoleStateType.Hurt);
+    }
+
+    public void DoDie()
+    {
+        m_RoleFSMMgr.ChangeState(RoleStateType.Die);
+    }
+
+    public void DoAttack()
+    {
+        m_RoleFSMMgr.ChangeState(RoleStateType.Attack);
+    }
 }

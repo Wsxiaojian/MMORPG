@@ -29,6 +29,15 @@ public class GlobalInit : MonoBehaviour
     public AnimationCurve UIAnimCurve = new AnimationCurve(new Keyframe[] { new Keyframe(0, 0), new Keyframe(1, 1)});
 
 
+    /// <summary>
+    /// 当前玩家信息
+    /// </summary>
+    public string CurNickName;
+    /// <summary>
+    /// 当前玩家
+    /// </summary>
+    public RoleCtrl CurPlayer;
+
 
     public static GlobalInit  Instance;
 

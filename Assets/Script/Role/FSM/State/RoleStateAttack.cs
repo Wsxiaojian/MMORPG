@@ -15,19 +15,34 @@ public class RoleStateAttack : RoleStateAbstract
     {
     }
 
-
     public override void OnEnter()
     {
         base.OnEnter();
+
+        RoleFSMMgr.RoleCtrl.Animator.SetInteger(TransToName.ToPhyAttack.ToString(), 1);
+
     }
 
     public override void OnUpdate()
     {
         base.OnUpdate();
+
+        AnimStateInfo = RoleFSMMgr.RoleCtrl.Animator.GetCurrentAnimatorStateInfo(0);
+        if (AnimStateInfo.IsName(RoleAnimName.PhyAttack1.ToString()))
+        {
+            RoleFSMMgr.RoleCtrl.Animator.SetInteger(TransToName.CurState.ToString(), (int)RoleStateType.Attack);
+
+            //动画播完
+            if (AnimStateInfo.normalizedTime >1)
+            {
+                RoleFSMMgr.RoleCtrl.DoIdle();
+            }
+        }
     }
 
     public override void OnExit()
     {
         base.OnExit();
+        RoleFSMMgr.RoleCtrl.Animator.SetInteger(TransToName.ToPhyAttack.ToString(), 0);
     }
 }

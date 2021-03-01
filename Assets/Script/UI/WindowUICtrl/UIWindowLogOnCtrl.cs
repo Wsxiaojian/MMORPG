@@ -82,6 +82,8 @@ public class UIWindowLogOnCtrl : UIWindowBase
 
         if(nickName == oldNickName && pwd == oldpwd)
         {
+            GlobalInit.Instance.CurNickName = nickName;
+
             //登陆成功  跳转主场景
             SceneMgr.Instance.LoadMainCity();
         }

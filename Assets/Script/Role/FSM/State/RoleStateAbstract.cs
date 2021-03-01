@@ -14,7 +14,9 @@ public abstract class RoleStateAbstract
     /// <summary>
     /// 角色管理器
     /// </summary>
-    public RoleFSMMgr RoleFSMMgr;
+    protected RoleFSMMgr RoleFSMMgr;
+
+    protected AnimatorStateInfo AnimStateInfo;
 
     public RoleStateAbstract(RoleFSMMgr roleFsm)
     {
