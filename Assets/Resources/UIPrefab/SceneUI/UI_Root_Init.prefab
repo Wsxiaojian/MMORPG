@@ -537,7 +537,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: 1458958481
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &5545028208854677357
@@ -593,6 +593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Center_Container: {fileID: 5545028208079473493}
+  UICamera: {fileID: 0}
 --- !u!1 &5545028209062704077
 GameObject:
   m_ObjectHideFlags: 0
