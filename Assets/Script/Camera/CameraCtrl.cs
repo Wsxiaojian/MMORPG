@@ -45,6 +45,14 @@ public class CameraCtrl : MonoBehaviour
     }
 
     /// <summary>
+    /// 初始化摄像机
+    /// </summary>
+    public void Init()
+    {
+        m_CameraUpAndDown.transform.localEulerAngles = new Vector3(0, 0, Mathf.Clamp(m_CameraUpAndDown.transform.localEulerAngles.z, 30, 80));
+    }
+    
+    /// <summary>
     /// 设置摄像机左右旋转
     /// </summary>
     /// <param name="type">type = 0 表示向左  type =1 表示向右</param>
@@ -70,7 +78,7 @@ public class CameraCtrl : MonoBehaviour
     /// <param name="type">type = 0 表示向前  type =1 表示向后</param>
     public void SetCameraZoom(int type)
     {
-        m_CameraContainer.Translate(Vector3.forward * 10 * (type == 0 ? 1 : -1) * Time.deltaTime);
+        m_CameraContainer.Translate(Vector3.forward * 20 * (type == 0 ? 1 : -1) * Time.deltaTime);
 
         m_CameraContainer.transform.localPosition = new Vector3(0, 0, Mathf.Clamp(m_CameraContainer.transform.localPosition.z, -5, 5));
     }

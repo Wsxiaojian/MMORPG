@@ -124,7 +124,7 @@ public class RoleHeadBarCtrl : MonoBehaviour
     /// </summary>
     /// <param name="damage">伤害值</param>
     /// <param name="delayTime">延迟时间</param>
-    public void ShowHUD(int  damage,int delayTime)
+    public void ShowHUD(int  damage,float delayTime)
     {
         Text hudText = CurHUD_List.Find(text => text.gameObject.activeSelf == false);
         if(hudText == null)
@@ -142,7 +142,7 @@ public class RoleHeadBarCtrl : MonoBehaviour
     /// </summary>
     /// <param name="hudText"></param>
     /// <returns></returns>
-    IEnumerator StartHUDAnim(Text hudText, int delayTime)
+    IEnumerator StartHUDAnim(Text hudText, float delayTime)
     {
         hudText.gameObject.SetActive(true);
         hudText.enabled = false;

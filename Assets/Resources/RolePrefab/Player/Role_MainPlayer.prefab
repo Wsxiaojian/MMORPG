@@ -94,8 +94,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b248ab79561617044b7057e274f6e04e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MoveSpeed: 5
+  CharacterController: {fileID: 0}
+  MoveSpeed: 5
+  TargetPos: {x: 0, y: 0, z: 0}
   Animator: {fileID: 1432949670426744534}
+  m_RoleType: 0
   m_HeadBarPos: {fileID: 1432949671060350520}
 --- !u!1001 &1432949670419391414
 PrefabInstance:

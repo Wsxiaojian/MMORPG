@@ -42,29 +42,40 @@ public class RoleStateRun : RoleStateAbstract
         if(AnimStateInfo.IsName(RoleAnimName.Run.ToString()))
         {
             RoleFSMMgr.RoleCtrl.Animator.SetInteger(TransToName.CurState.ToString(), (int)RoleStateType.Run);
+        }
+        else
+        {
+            RoleFSMMgr.RoleCtrl.Animator.SetInteger(TransToName.CurState.ToString(), (int)RoleStateType.None);
+        }
 
-            if (Vector3.Distance(RoleFSMMgr.RoleCtrl.transform.position, RoleFSMMgr.RoleCtrl.TargetPos) > 0.1f)
+   
+        if (Vector3.Distance(RoleFSMMgr.RoleCtrl.transform.position, RoleFSMMgr.RoleCtrl.TargetPos) > 0.1f)
+        {
+            //方向
+            Vector3 direction = RoleFSMMgr.RoleCtrl.TargetPos - RoleFSMMgr.RoleCtrl.transform.position;
+            direction = direction.normalized;
+            direction = direction * Time.deltaTime * RoleFSMMgr.RoleCtrl.MoveSpeed;
+            direction.y = 0f;
+
+            //转向
+            if (m_RotateSpeed < 1)
             {
-                //方向
-                Vector3 direction = (RoleFSMMgr.RoleCtrl.TargetPos - RoleFSMMgr.RoleCtrl.transform.position).normalized;
-                direction.y = 0f;
-                direction = direction * Time.deltaTime * RoleFSMMgr.RoleCtrl.MoveSpeed;
-
-                //转向
-                if (m_RotateSpeed < 1)
-                {
-                    m_RotateSpeed += 5f * Time.deltaTime;
-                    m_TargetRotate = Quaternion.LookRotation(direction);
-                    RoleFSMMgr.RoleCtrl.transform.rotation = Quaternion.Lerp(RoleFSMMgr.RoleCtrl.transform.rotation, m_TargetRotate, m_RotateSpeed);
-                }
-
-                //移动
-                RoleFSMMgr.RoleCtrl.CharacterController.Move(direction);
+                m_RotateSpeed += 5f * Time.deltaTime;
+                m_TargetRotate = Quaternion.LookRotation(direction);
+                RoleFSMMgr.RoleCtrl.transform.rotation = Quaternion.Lerp(RoleFSMMgr.RoleCtrl.transform.rotation, m_TargetRotate, m_RotateSpeed);
             }
-            else
+
+            if (Quaternion.Angle(RoleFSMMgr.RoleCtrl.transform.rotation, m_TargetRotate) < 1)
             {
-                RoleFSMMgr.RoleCtrl.DoIdle();
+                m_RotateSpeed = 0;
             }
+
+            //移动
+            RoleFSMMgr.RoleCtrl.CharacterController.Move(direction);
+        }
+        else
+        {
+            RoleFSMMgr.RoleCtrl.DoIdle();
         }
     }
 

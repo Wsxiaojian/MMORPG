@@ -13,6 +13,13 @@ using UnityEngine;
 /// </summary>
 public class CitySceneCtrl : MonoBehaviour
 {
+    /// <summary>
+    /// 玩家出生点
+    /// </summary>
+    [SerializeField]
+    private Transform m_PlayerBornPos;
+
+
     private void Awake()
     {
         SceneUIMgr.Instance.LoadSceneUI(SceneUIType.MainCity);
@@ -22,9 +29,9 @@ public class CitySceneCtrl : MonoBehaviour
     {
 
         GameObject roleGo = RoleMgr.Instance.LoadRole(RoleType.MainPlayer, "Role_MainPlayer");
- 
         //设置再 出生点
-
+        roleGo.transform.position = m_PlayerBornPos.position;
+        roleGo.transform.localScale = Vector3.one;
 
         //角色控制器
         RoleCtrl roleCtrl = roleGo.GetComponent<RoleCtrl>();
@@ -38,28 +45,28 @@ public class CitySceneCtrl : MonoBehaviour
 
         //全局玩家对象
         GlobalInit.Instance.CurPlayer = roleCtrl;
+
+        FingerEvent.Instance.OnFigerDrag += OnFigerDrag;
+        FingerEvent.Instance.OnPlayerClickGround += OnPlayerClickGround;
+        FingerEvent.Instance.OnZoom += OnZoom;
     }
 
     private void Update()
     {
 
     }
-
-    private void OnEnable()
-    {
-        FingerEvent.Instance.OnFigerDrag += OnFigerDrag;
-        FingerEvent.Instance.OnPlayerClickGround += OnPlayerClickGround;
-        FingerEvent.Instance.OnZoom += OnZoom;
-    }
-
-
-    private void OnDisable()
+    
+    private void OnDestroy()
     {
         FingerEvent.Instance.OnFigerDrag -= OnFigerDrag;
         FingerEvent.Instance.OnPlayerClickGround -= OnPlayerClickGround;
         FingerEvent.Instance.OnZoom -= OnZoom;
     }
 
+    /// <summary>
+    /// 手指拖动处理
+    /// </summary>
+    /// <param name="dragDir"></param>
     private void OnFigerDrag(FingerEvent.DragDir dragDir)
     {
         switch (dragDir)

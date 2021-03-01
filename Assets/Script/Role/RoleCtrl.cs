@@ -14,6 +14,7 @@ public class RoleCtrl : MonoBehaviour
     /// <summary>
     /// 角色控制器
     /// </summary>
+    [HideInInspector]
     public CharacterController CharacterController;
     /// <summary>
     /// 移动速度
@@ -22,6 +23,7 @@ public class RoleCtrl : MonoBehaviour
     /// <summary>
     /// 目标点
     /// </summary>
+    //[HideInInspector]
     public Vector3 TargetPos;
 
 
@@ -45,6 +47,7 @@ public class RoleCtrl : MonoBehaviour
     /// <summary>
     /// 角色类型
     /// </summary>
+    [SerializeField]
     private RoleType m_RoleType = RoleType.None;
 
 
@@ -67,6 +70,10 @@ public class RoleCtrl : MonoBehaviour
 
         m_RoleFSMMgr = new RoleFSMMgr(this);
 
+        if (CameraCtrl.Instance != null)
+        {
+            CameraCtrl.Instance.Init();
+        }
     }
 
 
@@ -83,10 +90,13 @@ public class RoleCtrl : MonoBehaviour
         {
             CharacterController.Move(transform.position + new Vector3(0, -100, 0) - transform.position);
         }
-        
 
-        if (CameraCtrl.Instance == null) return;
-        CameraCtrl.Instance.transform.position = transform.position;
+
+        if (CameraCtrl.Instance != null)
+        {
+            CameraCtrl.Instance.transform.position = transform.position;
+        }
+            
     }
 
 
@@ -144,12 +154,21 @@ public class RoleCtrl : MonoBehaviour
         if (targetPos != Vector3.zero)
         {
             TargetPos = targetPos;
+            TargetPos.y = 0;
             m_RoleFSMMgr.ChangeState(RoleStateType.Run);
         }
     }
 
-    public void DoHurt()
+    /// <summary>
+    /// 收到伤害
+    /// </summary>
+    /// <param name="damage"></param>
+    public void DoHurt(int  damage)
     {
+        if (m_RoleHeadBarCtrl != null)
+        {
+            m_RoleHeadBarCtrl.ShowHUD(damage, 0.5f);
+        }
         m_RoleFSMMgr.ChangeState(RoleStateType.Hurt);
     }
 
