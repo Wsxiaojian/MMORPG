@@ -23,9 +23,8 @@ public class RoleCtrl : MonoBehaviour
     /// <summary>
     /// 目标点
     /// </summary>
-    //[HideInInspector]
+    [HideInInspector]
     public Vector3 TargetPos;
-
 
     /// <summary>
     /// 动画机
@@ -35,7 +34,7 @@ public class RoleCtrl : MonoBehaviour
     /// <summary>
     /// 角色状态机
     /// </summary>
-    private RoleFSMMgr m_RoleFSMMgr;
+    public RoleFSMMgr CurRoleFSMMgr;
     /// <summary>
     /// 角色Ai控制
     /// </summary>
@@ -66,11 +65,11 @@ public class RoleCtrl : MonoBehaviour
     {
         CharacterController = GetComponent<CharacterController>();
 
-        MoveSpeed = 5f;
 
-        m_RoleFSMMgr = new RoleFSMMgr(this);
+        CurRoleFSMMgr = new RoleFSMMgr(this);
 
-        if (CameraCtrl.Instance != null)
+
+        if (m_RoleType == RoleType.MainPlayer && CameraCtrl.Instance != null)
         {
             CameraCtrl.Instance.Init();
         }
@@ -81,8 +80,8 @@ public class RoleCtrl : MonoBehaviour
     {
         if (m_CurRoleAI != null)
             m_CurRoleAI.DoAI();
-        if (m_RoleFSMMgr != null)
-            m_RoleFSMMgr.OnUpdate();
+        if (CurRoleFSMMgr != null)
+            CurRoleFSMMgr.OnUpdate();
 
 
 
@@ -92,7 +91,7 @@ public class RoleCtrl : MonoBehaviour
         }
 
 
-        if (CameraCtrl.Instance != null)
+        if (m_RoleType == RoleType.MainPlayer &&  CameraCtrl.Instance != null)
         {
             CameraCtrl.Instance.transform.position = transform.position;
         }
@@ -111,7 +110,7 @@ public class RoleCtrl : MonoBehaviour
         m_CurRoleInfo = roleInfo;
         m_CurRoleAI = roleAI;
 
-        m_RoleFSMMgr = new RoleFSMMgr(this);
+        CurRoleFSMMgr = new RoleFSMMgr(this);
 
 
         //加载头顶信息栏
@@ -142,7 +141,7 @@ public class RoleCtrl : MonoBehaviour
 
     public void DoIdle()
     {
-        m_RoleFSMMgr.ChangeState(RoleStateType.Idle);
+        CurRoleFSMMgr.ChangeState(RoleStateType.Idle);
     }
     
     /// <summary>
@@ -155,7 +154,7 @@ public class RoleCtrl : MonoBehaviour
         {
             TargetPos = targetPos;
             TargetPos.y = 0;
-            m_RoleFSMMgr.ChangeState(RoleStateType.Run);
+            CurRoleFSMMgr.ChangeState(RoleStateType.Run);
         }
     }
 
@@ -169,16 +168,16 @@ public class RoleCtrl : MonoBehaviour
         {
             m_RoleHeadBarCtrl.ShowHUD(damage, 0.5f);
         }
-        m_RoleFSMMgr.ChangeState(RoleStateType.Hurt);
+        CurRoleFSMMgr.ChangeState(RoleStateType.Hurt);
     }
 
     public void DoDie()
     {
-        m_RoleFSMMgr.ChangeState(RoleStateType.Die);
+        CurRoleFSMMgr.ChangeState(RoleStateType.Die);
     }
 
     public void DoAttack()
     {
-        m_RoleFSMMgr.ChangeState(RoleStateType.Attack);
+        CurRoleFSMMgr.ChangeState(RoleStateType.Attack);
     }
 }

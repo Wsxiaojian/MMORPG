@@ -20,7 +20,7 @@ public class RoleStateHurt : RoleStateAbstract
     {
         base.OnEnter();
 
-        RoleFSMMgr.RoleCtrl.Animator.SetBool(TransToName.ToHurt.ToString(), true);
+        CurRoleFSMMgr.RoleCtrl.Animator.SetBool(TransToName.ToHurt.ToString(), true);
 
     }
 
@@ -28,15 +28,15 @@ public class RoleStateHurt : RoleStateAbstract
     {
         base.OnUpdate();
 
-        AnimStateInfo = RoleFSMMgr.RoleCtrl.Animator.GetCurrentAnimatorStateInfo(0);
+        AnimStateInfo = CurRoleFSMMgr.RoleCtrl.Animator.GetCurrentAnimatorStateInfo(0);
         if (AnimStateInfo.IsName(RoleAnimName.Hurt.ToString()))
         {
-            RoleFSMMgr.RoleCtrl.Animator.SetInteger(TransToName.CurState.ToString(), (int)RoleStateType.Hurt);
+            CurRoleFSMMgr.RoleCtrl.Animator.SetInteger(TransToName.CurState.ToString(), (int)RoleStateType.Hurt);
 
             //动画播完
             if (AnimStateInfo.normalizedTime > 1)
             {
-                RoleFSMMgr.RoleCtrl.DoIdle();
+                CurRoleFSMMgr.RoleCtrl.DoIdle();
             }
         }
     }
@@ -44,6 +44,6 @@ public class RoleStateHurt : RoleStateAbstract
     public override void OnExit()
     {
         base.OnExit();
-        RoleFSMMgr.RoleCtrl.Animator.SetBool(TransToName.ToHurt.ToString(), false);
+        CurRoleFSMMgr.RoleCtrl.Animator.SetBool(TransToName.ToHurt.ToString(), false);
     }
 }

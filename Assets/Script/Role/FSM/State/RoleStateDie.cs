@@ -19,7 +19,7 @@ public class RoleStateDie : RoleStateAbstract
     {
         base.OnEnter();
 
-        RoleFSMMgr.RoleCtrl.Animator.SetBool(TransToName.ToDie.ToString(), true);
+        CurRoleFSMMgr.RoleCtrl.Animator.SetBool(TransToName.ToDie.ToString(), true);
 
     }
 
@@ -27,16 +27,16 @@ public class RoleStateDie : RoleStateAbstract
     {
         base.OnUpdate();
 
-        AnimStateInfo = RoleFSMMgr.RoleCtrl.Animator.GetCurrentAnimatorStateInfo(0);
+        AnimStateInfo = CurRoleFSMMgr.RoleCtrl.Animator.GetCurrentAnimatorStateInfo(0);
         if (AnimStateInfo.IsName(RoleAnimName.Die.ToString()))
         {
-            RoleFSMMgr.RoleCtrl.Animator.SetInteger(TransToName.CurState.ToString(), (int)RoleStateType.Die);
+            CurRoleFSMMgr.RoleCtrl.Animator.SetInteger(TransToName.CurState.ToString(), (int)RoleStateType.Die);
         }
     }
 
     public override void OnExit()
     {
         base.OnExit();
-        RoleFSMMgr.RoleCtrl.Animator.SetBool(TransToName.ToDie.ToString(), false);
+        CurRoleFSMMgr.RoleCtrl.Animator.SetBool(TransToName.ToDie.ToString(), false);
     }
 }

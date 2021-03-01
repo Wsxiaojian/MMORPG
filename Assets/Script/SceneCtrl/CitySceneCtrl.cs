@@ -41,7 +41,7 @@ public class CitySceneCtrl : MonoBehaviour
         roleInfo.RoleID = 1;
         roleInfo.HpMax = roleInfo.CurHp = 10000;
 
-        roleCtrl.Init(RoleType.MainPlayer, roleInfo, null);
+        roleCtrl.Init(RoleType.MainPlayer, roleInfo, new RoleMainCityAI(roleCtrl));
 
         //全局玩家对象
         GlobalInit.Instance.CurPlayer = roleCtrl;

@@ -17,7 +17,7 @@ public class RoleInfo
     /// <summary>
     /// 角色服务器id
     /// </summary>
-    public int RoleServerID;
+    public long RoleServerID;
     /// <summary>
     /// 角色id
     /// </summary>

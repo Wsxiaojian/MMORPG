@@ -19,7 +19,7 @@ public class RoleStateIdle : RoleStateAbstract
     {
         base.OnEnter();
 
-        RoleFSMMgr.RoleCtrl.Animator.SetBool(TransToName.ToIdle.ToString(), true);
+        CurRoleFSMMgr.RoleCtrl.Animator.SetBool(TransToName.ToIdle.ToString(), true);
 
     }
 
@@ -27,16 +27,16 @@ public class RoleStateIdle : RoleStateAbstract
     {
         base.OnUpdate();
 
-        AnimStateInfo = RoleFSMMgr.RoleCtrl.Animator.GetCurrentAnimatorStateInfo(0);
+        AnimStateInfo = CurRoleFSMMgr.RoleCtrl.Animator.GetCurrentAnimatorStateInfo(0);
         if (AnimStateInfo.IsName(RoleAnimName.Idle_Normal.ToString()))
         {
-            RoleFSMMgr.RoleCtrl.Animator.SetInteger(TransToName.CurState.ToString(), (int)RoleStateType.Idle);
+            CurRoleFSMMgr.RoleCtrl.Animator.SetInteger(TransToName.CurState.ToString(), (int)RoleStateType.Idle);
         }
     }
 
     public override void OnExit()
     {
         base.OnExit();
-        RoleFSMMgr.RoleCtrl.Animator.SetBool(TransToName.ToIdle.ToString(), false);
+        CurRoleFSMMgr.RoleCtrl.Animator.SetBool(TransToName.ToIdle.ToString(), false);
     }
 }

@@ -29,7 +29,7 @@ public class RoleStateRun : RoleStateAbstract
     {
         base.OnEnter();
 
-        RoleFSMMgr.RoleCtrl.Animator.SetBool(TransToName.ToRun.ToString(), true);
+        CurRoleFSMMgr.RoleCtrl.Animator.SetBool(TransToName.ToRun.ToString(), true);
 
         m_RotateSpeed = 0;
     }
@@ -38,23 +38,23 @@ public class RoleStateRun : RoleStateAbstract
     {
         base.OnUpdate();
 
-        AnimStateInfo = RoleFSMMgr.RoleCtrl.Animator.GetCurrentAnimatorStateInfo(0);
+        AnimStateInfo = CurRoleFSMMgr.RoleCtrl.Animator.GetCurrentAnimatorStateInfo(0);
         if(AnimStateInfo.IsName(RoleAnimName.Run.ToString()))
         {
-            RoleFSMMgr.RoleCtrl.Animator.SetInteger(TransToName.CurState.ToString(), (int)RoleStateType.Run);
+            CurRoleFSMMgr.RoleCtrl.Animator.SetInteger(TransToName.CurState.ToString(), (int)RoleStateType.Run);
         }
         else
         {
-            RoleFSMMgr.RoleCtrl.Animator.SetInteger(TransToName.CurState.ToString(), (int)RoleStateType.None);
+            CurRoleFSMMgr.RoleCtrl.Animator.SetInteger(TransToName.CurState.ToString(), (int)RoleStateType.None);
         }
 
    
-        if (Vector3.Distance(RoleFSMMgr.RoleCtrl.transform.position, RoleFSMMgr.RoleCtrl.TargetPos) > 0.1f)
+        if (Vector3.Distance(CurRoleFSMMgr.RoleCtrl.transform.position, CurRoleFSMMgr.RoleCtrl.TargetPos) > 0.1f)
         {
             //方向
-            Vector3 direction = RoleFSMMgr.RoleCtrl.TargetPos - RoleFSMMgr.RoleCtrl.transform.position;
+            Vector3 direction = CurRoleFSMMgr.RoleCtrl.TargetPos - CurRoleFSMMgr.RoleCtrl.transform.position;
             direction = direction.normalized;
-            direction = direction * Time.deltaTime * RoleFSMMgr.RoleCtrl.MoveSpeed;
+            direction = direction * Time.deltaTime * CurRoleFSMMgr.RoleCtrl.MoveSpeed;
             direction.y = 0f;
 
             //转向
@@ -62,26 +62,26 @@ public class RoleStateRun : RoleStateAbstract
             {
                 m_RotateSpeed += 5f * Time.deltaTime;
                 m_TargetRotate = Quaternion.LookRotation(direction);
-                RoleFSMMgr.RoleCtrl.transform.rotation = Quaternion.Lerp(RoleFSMMgr.RoleCtrl.transform.rotation, m_TargetRotate, m_RotateSpeed);
+                CurRoleFSMMgr.RoleCtrl.transform.rotation = Quaternion.Lerp(CurRoleFSMMgr.RoleCtrl.transform.rotation, m_TargetRotate, m_RotateSpeed);
             }
 
-            if (Quaternion.Angle(RoleFSMMgr.RoleCtrl.transform.rotation, m_TargetRotate) < 1)
+            if (Quaternion.Angle(CurRoleFSMMgr.RoleCtrl.transform.rotation, m_TargetRotate) < 1)
             {
                 m_RotateSpeed = 0;
             }
 
             //移动
-            RoleFSMMgr.RoleCtrl.CharacterController.Move(direction);
+            CurRoleFSMMgr.RoleCtrl.CharacterController.Move(direction);
         }
         else
         {
-            RoleFSMMgr.RoleCtrl.DoIdle();
+            CurRoleFSMMgr.RoleCtrl.DoIdle();
         }
     }
 
     public override void OnExit()
     {
         base.OnExit();
-        RoleFSMMgr.RoleCtrl.Animator.SetBool(TransToName.ToRun.ToString(), false);
+        CurRoleFSMMgr.RoleCtrl.Animator.SetBool(TransToName.ToRun.ToString(), false);
     }
 }

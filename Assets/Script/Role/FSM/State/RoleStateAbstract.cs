@@ -14,13 +14,16 @@ public abstract class RoleStateAbstract
     /// <summary>
     /// 角色管理器
     /// </summary>
-    protected RoleFSMMgr RoleFSMMgr;
+    protected RoleFSMMgr CurRoleFSMMgr;
 
+    /// <summary>
+    /// 当前播放动画信息
+    /// </summary>
     protected AnimatorStateInfo AnimStateInfo;
 
     public RoleStateAbstract(RoleFSMMgr roleFsm)
     {
-        RoleFSMMgr = roleFsm;
+        CurRoleFSMMgr = roleFsm;
     }
 
     /// <summary>
