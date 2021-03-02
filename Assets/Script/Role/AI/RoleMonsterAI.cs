@@ -48,14 +48,17 @@ public class RoleMonsterAI : IRoleAI
     public void DoAI()
     {
         //死亡退出
-        if (CurRoleCtrl.CurRoleFSMMgr.CurRoleStateType == RoleStateType.Die) return;
+        if (CurRoleCtrl.CurRoleInfo.CurHp < 0)
+        {
+            return;
+        }
 
         if (CurRoleCtrl.LockEnemy == null)
         {
             //巡逻 找主角进行攻击 脱离追击范围 则小怪切换待机
             float distance = Vector3.Distance(CurRoleCtrl.transform.position, GlobalInit.Instance.CurPlayer.transform.position);
             //巡逻
-            if (distance < CurRoleCtrl.ViewRange)
+            if (distance > CurRoleCtrl.ViewRange)
             {
                 if(CurRoleCtrl.CurRoleFSMMgr.CurRoleStateType == RoleStateType.Idle)
                 {
@@ -65,8 +68,9 @@ public class RoleMonsterAI : IRoleAI
                         m_NextPatrolTime = Time.time + Random.Range(6, 10);
 
                         //先随机一个点
-                        Vector3 targetPos = CurRoleCtrl.transform.parent.position + 
-                            new Vector3(Random.Range(-CurRoleCtrl.PatrolRange, CurRoleCtrl.PatrolRange), 0, Random.Range(-CurRoleCtrl.PatrolRange,CurRoleCtrl.PatrolRange));
+                        Vector3 targetPos = CurRoleCtrl.BornPos +
+                            new Vector3(Random.Range(-CurRoleCtrl.PatrolRange, CurRoleCtrl.PatrolRange),
+                            0, Random.Range(-CurRoleCtrl.PatrolRange, CurRoleCtrl.PatrolRange));
 
                         //切换至移动状态
                         CurRoleCtrl.DoMove(targetPos);
@@ -87,11 +91,12 @@ public class RoleMonsterAI : IRoleAI
             }
 
             //巡逻 找主角进行攻击 脱离追击范围 则小怪切换待机
-                float distance = Vector3.Distance(CurRoleCtrl.transform.position, CurRoleCtrl.LockEnemy.transform.position);
+            float distance = Vector3.Distance(CurRoleCtrl.transform.position, CurRoleCtrl.LockEnemy.transform.position);
             //大于可视范围  放弃目标
             if (distance > CurRoleCtrl.ViewRange)
             {
                 CurRoleCtrl.LockEnemy = null;
+                return;
             }
             //大于攻击距离  追击目标
             else if(distance > CurRoleCtrl.AttackRange)

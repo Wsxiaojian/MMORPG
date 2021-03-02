@@ -144,13 +144,13 @@ public class RoleHeadBarCtrl : MonoBehaviour
 
         //启动效果
         Sequence seq = DOTween.Sequence();
-        seq.Append(hudText.transform.DOLocalMoveY(30f, 0.5f).SetEase(m_OffsetAnim));
-        seq.Join(hudText.transform.DOScale(Vector3.one, 0.5f).SetEase(m_ScaleAnim)) ;
-        seq.Join( hudText.DOFade(1, 0.5f).SetEase(m_AlphaAnim));
+        seq.Append(hudText.transform.DOLocalMoveY(50f, 0.2f).SetEase(m_OffsetAnim));
+        seq.Join(hudText.transform.DOScale(Vector3.one, 0.2f).SetEase(m_ScaleAnim)) ;
+        seq.Join( hudText.DOFade(1, 0.2f).SetEase(m_AlphaAnim));
         seq.OnComplete( () => hudText.gameObject.SetActive(false) );
 
         //血条
         if (Tf_HpSlider.gameObject.activeSelf)
-            Img_HpSlider.DOFillAmount(hpRate, 0.5f);
+            Img_HpSlider.DOFillAmount(hpRate, 0.2f);
     }
 }

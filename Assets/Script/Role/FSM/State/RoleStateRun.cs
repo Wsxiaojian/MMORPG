@@ -48,8 +48,9 @@ public class RoleStateRun : RoleStateAbstract
             CurRoleFSMMgr.RoleCtrl.Animator.SetInteger(TransToName.CurState.ToString(), (int)RoleStateType.None);
         }
 
-   
-        if (Vector3.Distance(CurRoleFSMMgr.RoleCtrl.transform.position, CurRoleFSMMgr.RoleCtrl.TargetPos) > 0.1f)
+
+        Vector3 targetPos = new Vector3(CurRoleFSMMgr.RoleCtrl.TargetPos.x, CurRoleFSMMgr.RoleCtrl.transform.position.y, CurRoleFSMMgr.RoleCtrl.TargetPos.z);
+        if (Vector3.Distance(CurRoleFSMMgr.RoleCtrl.transform.position, targetPos) > 0.1f)
         {
             //方向
             Vector3 direction = CurRoleFSMMgr.RoleCtrl.TargetPos - CurRoleFSMMgr.RoleCtrl.transform.position;

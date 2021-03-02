@@ -27,6 +27,12 @@ public class RoleCtrl : MonoBehaviour
     public Vector3 TargetPos;
 
     /// <summary>
+    /// 出生点
+    /// </summary>
+    [HideInInspector]
+    public Vector3 BornPos;
+
+    /// <summary>
     /// 锁定的敌人
     /// </summary>
     [HideInInspector]
@@ -98,13 +104,15 @@ public class RoleCtrl : MonoBehaviour
         CharacterController = GetComponent<CharacterController>();
 
 
-        CurRoleFSMMgr = new RoleFSMMgr(this);
-        DoIdle();
+        //CurRoleFSMMgr = new RoleFSMMgr(this);
+      
 
         if (CurRoleType == RoleType.MainPlayer && CameraCtrl.Instance != null)
         {
             CameraCtrl.Instance.Init();
         }
+
+        BornPos = transform.position;
     }
 
 
@@ -150,7 +158,7 @@ public class RoleCtrl : MonoBehaviour
         m_CurRoleAI = roleAI;
 
         CurRoleFSMMgr = new RoleFSMMgr(this);
-
+        DoIdle();
 
         //加载头顶信息栏
         InitRoleHeadBar();
@@ -241,8 +249,11 @@ public class RoleCtrl : MonoBehaviour
     public void DoAttack()
     {
         if (LockEnemy == null) return;
+
+        //切换攻击状态
         CurRoleFSMMgr.ChangeState(RoleStateType.Attack);
 
+        //伤害目标
         //暂定
         LockEnemy.DoHurt(100, 0.5f);
     }

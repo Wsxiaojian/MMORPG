@@ -41,6 +41,11 @@ public class RoleStateAttack : RoleStateAbstract
                 CurRoleFSMMgr.RoleCtrl.DoIdle();
             }
         }
+        //else
+        //{
+        //    CurRoleFSMMgr.RoleCtrl.Animator.SetInteger(TransToName.CurState.ToString(), (int)RoleStateType.None);
+        //}
+
     }
 
     public override void OnExit()
