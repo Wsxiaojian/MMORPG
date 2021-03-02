@@ -27,6 +27,27 @@ public class RoleCtrl : MonoBehaviour
     public Vector3 TargetPos;
 
     /// <summary>
+    /// 锁定的敌人
+    /// </summary>
+    [HideInInspector]
+    public RoleCtrl LockEnemy;
+
+    /// <summary>
+    /// 视野范围
+    /// </summary>
+    public float ViewRange = 8f;
+
+    /// <summary>
+    /// 巡逻范围
+    /// </summary>
+    public float PatrolRange = 3f;
+
+    /// <summary>
+    /// 攻击范围
+    /// </summary>
+    public float AttackRange = 2f;
+
+    /// <summary>
     /// 动画机
     /// </summary>
     public Animator Animator;
@@ -34,6 +55,7 @@ public class RoleCtrl : MonoBehaviour
     /// <summary>
     /// 角色状态机
     /// </summary>
+    [HideInInspector]
     public RoleFSMMgr CurRoleFSMMgr;
     /// <summary>
     /// 角色Ai控制
@@ -42,12 +64,12 @@ public class RoleCtrl : MonoBehaviour
     /// <summary>
     /// 角色信息
     /// </summary>
-    private RoleInfo m_CurRoleInfo;
+    [HideInInspector]
+    public RoleInfo CurRoleInfo;
     /// <summary>
     /// 角色类型
     /// </summary>
-    [SerializeField]
-    private RoleType m_RoleType = RoleType.None;
+    public RoleType CurRoleType = RoleType.None;
 
 
     /// <summary>
@@ -60,6 +82,16 @@ public class RoleCtrl : MonoBehaviour
     /// </summary>
     private RoleHeadBarCtrl m_RoleHeadBarCtrl;
 
+    /// <summary>
+    /// 角色受伤 委托
+    /// </summary>
+    public System.Action OnRoleHurt;
+
+    /// <summary>
+    /// 角色死亡 委托
+    /// </summary>
+    public System.Action<RoleCtrl> OnRoleDie;
+
 
     private void Start()
     {
@@ -67,9 +99,9 @@ public class RoleCtrl : MonoBehaviour
 
 
         CurRoleFSMMgr = new RoleFSMMgr(this);
+        DoIdle();
 
-
-        if (m_RoleType == RoleType.MainPlayer && CameraCtrl.Instance != null)
+        if (CurRoleType == RoleType.MainPlayer && CameraCtrl.Instance != null)
         {
             CameraCtrl.Instance.Init();
         }
@@ -91,11 +123,18 @@ public class RoleCtrl : MonoBehaviour
         }
 
 
-        if (m_RoleType == RoleType.MainPlayer &&  CameraCtrl.Instance != null)
+        if (CurRoleType == RoleType.MainPlayer &&  CameraCtrl.Instance != null)
         {
             CameraCtrl.Instance.transform.position = transform.position;
         }
-            
+    }
+
+    private void OnDestroy()
+    {
+        if (m_RoleHeadBarCtrl != null)
+        {
+            Destroy(m_RoleHeadBarCtrl.gameObject);
+        }
     }
 
 
@@ -106,8 +145,8 @@ public class RoleCtrl : MonoBehaviour
     /// <param name="roleAI"></param>
     public void Init(RoleType roleType,RoleInfo roleInfo, IRoleAI roleAI)
     {
-        m_RoleType = roleType;
-        m_CurRoleInfo = roleInfo;
+        CurRoleType = roleType;
+        CurRoleInfo = roleInfo;
         m_CurRoleAI = roleAI;
 
         CurRoleFSMMgr = new RoleFSMMgr(this);
@@ -123,7 +162,7 @@ public class RoleCtrl : MonoBehaviour
     private void InitRoleHeadBar()
     {
         if (RoleHeadBarRoot.Instance == null) return;
-        if (m_CurRoleInfo == null) return;
+        if (CurRoleInfo == null) return;
         if (m_HeadBarPos == null) return;
 
         GameObject roleHeadBar = ResourcesMgr.Instance.Load(ResourcesMgr.ResourceType.UIOther, "RoleHeadBar", cache: true);
@@ -134,7 +173,7 @@ public class RoleCtrl : MonoBehaviour
         m_RoleHeadBarCtrl = roleHeadBar.GetComponent<RoleHeadBarCtrl>();
 
         //初始化
-        m_RoleHeadBarCtrl.Init(m_HeadBarPos, m_CurRoleInfo.RoleNickName,m_RoleType!=RoleType.MainPlayer);
+        m_RoleHeadBarCtrl.Init(m_HeadBarPos, CurRoleInfo.RoleNickName,CurRoleType!=RoleType.MainPlayer);
     }
 
 
@@ -162,15 +201,38 @@ public class RoleCtrl : MonoBehaviour
     /// 收到伤害
     /// </summary>
     /// <param name="damage"></param>
-    public void DoHurt(int  damage)
+    public void DoHurt(int  damage,float delaytime)
     {
-        if (m_RoleHeadBarCtrl != null)
-        {
-            m_RoleHeadBarCtrl.ShowHUD(damage, 0.5f);
-        }
-        CurRoleFSMMgr.ChangeState(RoleStateType.Hurt);
+        StartCoroutine(IE_DoHurt(damage, delaytime));
     }
 
+    IEnumerator IE_DoHurt(int damage, float delaytime)
+    {
+        yield return new WaitForSeconds(delaytime);
+
+        int hurt = (int)(damage * Random.Range(0.5f, 1f));
+
+        CurRoleInfo.CurHp -= hurt;
+
+        //角色受伤委托
+        if (OnRoleHurt != null) OnRoleHurt();
+
+
+        if (m_RoleHeadBarCtrl != null)
+        {
+            m_RoleHeadBarCtrl.UpdHrut(hurt, (float)CurRoleInfo.CurHp/ CurRoleInfo.HpMax);
+        }
+
+        if (CurRoleInfo.CurHp > 0)
+        {
+            CurRoleFSMMgr.ChangeState(RoleStateType.Hurt);
+        }
+        else
+        {
+            CurRoleFSMMgr.ChangeState(RoleStateType.Die);
+        }
+    }
+    
     public void DoDie()
     {
         CurRoleFSMMgr.ChangeState(RoleStateType.Die);
@@ -178,6 +240,10 @@ public class RoleCtrl : MonoBehaviour
 
     public void DoAttack()
     {
+        if (LockEnemy == null) return;
         CurRoleFSMMgr.ChangeState(RoleStateType.Attack);
+
+        //暂定
+        LockEnemy.DoHurt(100, 0.5f);
     }
 }

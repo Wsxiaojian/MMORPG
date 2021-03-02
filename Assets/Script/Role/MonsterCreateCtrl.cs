@@ -61,7 +61,7 @@ public class MonsterCreateCtrl : MonoBehaviour
 
                 monsterGo.transform.SetParent(transform);
                 //随机一个点
-                monsterGo.transform.position = transform.TransformPoint(new Vector3(UnityEngine.Random.Range(-0.5f, 0.5f), 0, UnityEngine.Random.Range(-0.5f, 0.5f)));
+                monsterGo.transform.position = transform.TransformPoint(UnityEngine.Random.Range(-0.5f, 0.5f), 0, UnityEngine.Random.Range(-0.5f, 0.5f));
 
                 RoleCtrl monsterRoleCtrl = monsterGo.GetComponent<RoleCtrl>();
 
@@ -72,7 +72,15 @@ public class MonsterCreateCtrl : MonoBehaviour
                 roleInfo.RoleNickName = "偷书盗贼";
 
                 monsterRoleCtrl.Init(RoleType.Monster, roleInfo, new RoleMonsterAI(monsterRoleCtrl));
+
+                monsterRoleCtrl.OnRoleDie = MonsterRoleDie;
             }
         }
+    }
+
+    private void MonsterRoleDie(RoleCtrl roleCtrl)
+    {
+        m_CurMonsterNum--;
+        Destroy(roleCtrl.gameObject);
     }
 }

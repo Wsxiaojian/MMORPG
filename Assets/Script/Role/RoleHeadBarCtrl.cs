@@ -105,6 +105,8 @@ public class RoleHeadBarCtrl : MonoBehaviour
         {
             Tf_HpSlider.gameObject.SetActive(false);
         }
+
+        CurHUD_List = new List<Text>();
     }
 
     private void Update()
@@ -118,39 +120,22 @@ public class RoleHeadBarCtrl : MonoBehaviour
         }
     }
 
-
     /// <summary>
     /// 显示HUD信息
     /// </summary>
     /// <param name="damage">伤害值</param>
-    /// <param name="delayTime">延迟时间</param>
-    public void ShowHUD(int  damage,float delayTime)
+    public void UpdHrut(int  damage,float hpRate)
     {
         Text hudText = CurHUD_List.Find(text => text.gameObject.activeSelf == false);
         if(hudText == null)
         {
             hudText = Instantiate(Txt_HUDPrefab, Tf_HUDInfo);
+            CurHUD_List.Add(hudText);
         }
 
-        hudText.text = string.Format("-{0}", damage);
-
-        StartCoroutine(StartHUDAnim(hudText,delayTime));
-    }
-
-    /// <summary>
-    /// HUd动画显示
-    /// </summary>
-    /// <param name="hudText"></param>
-    /// <returns></returns>
-    IEnumerator StartHUDAnim(Text hudText, float delayTime)
-    {
         hudText.gameObject.SetActive(true);
-        hudText.enabled = false;
-        //等待延迟时间 显示
-        yield return new WaitForSeconds(delayTime);
-
         //初始化信息
-        hudText.enabled = true;
+        hudText.text = string.Format("-{0}", damage);
         hudText.transform.localPosition = Vector3.zero;
         hudText.transform.localScale = Vector3.zero;
         Color color = hudText.color;
@@ -158,11 +143,14 @@ public class RoleHeadBarCtrl : MonoBehaviour
         hudText.color = color;
 
         //启动效果
-        hudText.transform.DOLocalMoveY(1f, 1).SetEase(m_OffsetAnim);
-        hudText.transform.DOScale(Vector3.one, 1).SetEase(m_ScaleAnim);
-        hudText.DOFade(1, 1).SetEase(m_AlphaAnim);
+        Sequence seq = DOTween.Sequence();
+        seq.Append(hudText.transform.DOLocalMoveY(30f, 0.5f).SetEase(m_OffsetAnim));
+        seq.Join(hudText.transform.DOScale(Vector3.one, 0.5f).SetEase(m_ScaleAnim)) ;
+        seq.Join( hudText.DOFade(1, 0.5f).SetEase(m_AlphaAnim));
+        seq.OnComplete( () => hudText.gameObject.SetActive(false) );
 
-       yield return new WaitForSeconds(1);
-        hudText.gameObject.SetActive(false);
+        //血条
+        if (Tf_HpSlider.gameObject.activeSelf)
+            Img_HpSlider.DOFillAmount(hpRate, 0.5f);
     }
 }

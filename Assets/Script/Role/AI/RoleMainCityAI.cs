@@ -31,7 +31,19 @@ public class RoleMainCityAI : IRoleAI
     /// </summary>
     public void DoAI()
     {
+        if(CurRoleCtrl.LockEnemy != null)
+        {
+            if (CurRoleCtrl.LockEnemy.CurRoleInfo.CurHp < 0)
+            {
+                CurRoleCtrl.LockEnemy = null;
+                return;
+            }
 
-
+            //攻击
+            if(CurRoleCtrl.CurRoleFSMMgr.CurRoleStateType != RoleStateType.Attack)
+            {
+                CurRoleCtrl.DoAttack();
+            }
+        }
     }
 }

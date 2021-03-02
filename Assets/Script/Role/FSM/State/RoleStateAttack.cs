@@ -20,7 +20,10 @@ public class RoleStateAttack : RoleStateAbstract
         base.OnEnter();
 
         CurRoleFSMMgr.RoleCtrl.Animator.SetInteger(TransToName.ToPhyAttack.ToString(), 1);
-
+        if(CurRoleFSMMgr.RoleCtrl.LockEnemy != null)
+        {
+            CurRoleFSMMgr.RoleCtrl.transform.LookAt(new Vector3(CurRoleFSMMgr.RoleCtrl.LockEnemy.transform.position.x, CurRoleFSMMgr.RoleCtrl.transform.position.y, CurRoleFSMMgr.RoleCtrl.LockEnemy.transform.position.z));
+        }
     }
 
     public override void OnUpdate()

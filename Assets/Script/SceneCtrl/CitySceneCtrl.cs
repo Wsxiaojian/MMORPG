@@ -23,6 +23,13 @@ public class CitySceneCtrl : MonoBehaviour
     private void Awake()
     {
         SceneUIMgr.Instance.LoadSceneUI(SceneUIType.MainCity);
+
+        if (FingerEvent.Instance != null)
+        {
+            FingerEvent.Instance.OnFigerDrag += OnFigerDrag;
+            FingerEvent.Instance.OnPlayerClick += OnPlayerClick;
+            FingerEvent.Instance.OnZoom += OnZoom;
+        }
     }
 
     void Start()
@@ -36,7 +43,7 @@ public class CitySceneCtrl : MonoBehaviour
         //角色控制器
         RoleCtrl roleCtrl = roleGo.GetComponent<RoleCtrl>();
 
-        RoleInfo roleInfo = new RoleInfoMainPlayer();
+        RoleInfoMainPlayer roleInfo = new RoleInfoMainPlayer();
         roleInfo.RoleNickName = GlobalInit.Instance.CurNickName;
         roleInfo.RoleID = 1;
         roleInfo.HpMax = roleInfo.CurHp = 10000;
@@ -46,9 +53,7 @@ public class CitySceneCtrl : MonoBehaviour
         //全局玩家对象
         GlobalInit.Instance.CurPlayer = roleCtrl;
 
-        FingerEvent.Instance.OnFigerDrag += OnFigerDrag;
-        FingerEvent.Instance.OnPlayerClickGround += OnPlayerClickGround;
-        FingerEvent.Instance.OnZoom += OnZoom;
+        RoleInfoCtrl.Instance.SetInfo(roleInfo);
     }
 
     private void Update()
@@ -58,9 +63,12 @@ public class CitySceneCtrl : MonoBehaviour
     
     private void OnDestroy()
     {
-        FingerEvent.Instance.OnFigerDrag -= OnFigerDrag;
-        FingerEvent.Instance.OnPlayerClickGround -= OnPlayerClickGround;
-        FingerEvent.Instance.OnZoom -= OnZoom;
+        if (FingerEvent.Instance != null)
+        {
+            FingerEvent.Instance.OnFigerDrag -= OnFigerDrag;
+            FingerEvent.Instance.OnPlayerClick -= OnPlayerClick;
+            FingerEvent.Instance.OnZoom -= OnZoom;
+        }
     }
 
     /// <summary>
@@ -92,15 +100,28 @@ public class CitySceneCtrl : MonoBehaviour
     /// <summary>
     /// 玩家点击地面
     /// </summary>
-    private void OnPlayerClickGround()
+    private void OnPlayerClick()
     {      //移动到目标点
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hitInfo;
-        if (Physics.Raycast(ray, out hitInfo))
+
+        RaycastHit [] hits = Physics.RaycastAll(ray, Mathf.Infinity, 1 << LayerMask.NameToLayer("Role"));
+        if(hits!=null && hits.Length > 0)
         {
-            if (hitInfo.collider.gameObject.name.Equals("Ground", System.StringComparison.CurrentCultureIgnoreCase))
+            RoleCtrl enemy = hits[0].collider.GetComponent<RoleCtrl>();
+            if(enemy.CurRoleType != RoleType.MainPlayer)
             {
-                GlobalInit.Instance.CurPlayer.DoMove(hitInfo.point);
+                GlobalInit.Instance.CurPlayer.LockEnemy = enemy;
+            }
+        }
+        else
+        {
+            RaycastHit hitInfo;
+            if (Physics.Raycast(ray, out hitInfo))
+            {
+                if (hitInfo.collider.gameObject.name.Equals("Ground", System.StringComparison.CurrentCultureIgnoreCase))
+                {
+                    GlobalInit.Instance.CurPlayer.DoMove(hitInfo.point);
+                }
             }
         }
     }

@@ -31,6 +31,12 @@ public class RoleStateDie : RoleStateAbstract
         if (AnimStateInfo.IsName(RoleAnimName.Die.ToString()))
         {
             CurRoleFSMMgr.RoleCtrl.Animator.SetInteger(TransToName.CurState.ToString(), (int)RoleStateType.Die);
+
+            //动画播完
+            if (AnimStateInfo.normalizedTime > 1)
+            {
+                CurRoleFSMMgr.RoleCtrl.OnRoleDie(CurRoleFSMMgr.RoleCtrl);
+            }
         }
     }
 
