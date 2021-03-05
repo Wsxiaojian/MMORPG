@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Center_Container: {fileID: 5231628475097946715}
-  UICamera: {fileID: 0}
+  UICamera: {fileID: 5231628474403447494}
 --- !u!1 &5231628474228484292
 GameObject:
   m_ObjectHideFlags: 0

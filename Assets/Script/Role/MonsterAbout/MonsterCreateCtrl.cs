@@ -64,11 +64,13 @@ public class MonsterCreateCtrl : MonoBehaviour
                 monsterGo.transform.position = transform.TransformPoint(UnityEngine.Random.Range(-0.5f, 0.5f), 0, UnityEngine.Random.Range(-0.5f, 0.5f));
 
                 RoleCtrl monsterRoleCtrl = monsterGo.GetComponent<RoleCtrl>();
+                //出生点
+                monsterRoleCtrl.BornPos = monsterGo.transform.position;
 
                 RoleInfoMonster roleInfo = new RoleInfoMonster();
                 roleInfo.RoleServerID = DateTime.Now.Ticks;
                 roleInfo.RoleID = 1;
-                roleInfo.CurHp = roleInfo.HpMax = 100;
+                roleInfo.CurHp = roleInfo.HpMax = 1000;
                 roleInfo.RoleNickName = "偷书盗贼";
 
                 monsterRoleCtrl.Init(RoleType.Monster, roleInfo, new RoleMonsterAI(monsterRoleCtrl));

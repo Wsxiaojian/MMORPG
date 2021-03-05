@@ -20,6 +20,8 @@ public class RoleMainCityAI : IRoleAI
         set;
     }
 
+    private float m_NextAttackTime;
+
     public RoleMainCityAI(RoleCtrl roleCtrl)
     {
         CurRoleCtrl = roleCtrl;
@@ -40,8 +42,10 @@ public class RoleMainCityAI : IRoleAI
             }
 
             //攻击
-            if(CurRoleCtrl.CurRoleFSMMgr.CurRoleStateType != RoleStateType.Attack)
+            if(CurRoleCtrl.CurRoleFSMMgr.CurRoleStateType != RoleStateType.Attack && Time.time> m_NextAttackTime)
             {
+                //每秒攻击一次
+                m_NextAttackTime = Time.time + 1;
                 CurRoleCtrl.DoAttack();
             }
         }

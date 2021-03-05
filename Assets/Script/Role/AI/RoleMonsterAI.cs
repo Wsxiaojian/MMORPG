@@ -39,6 +39,7 @@ public class RoleMonsterAI : IRoleAI
     public RoleMonsterAI(RoleCtrl roleCtrl)
     {
         CurRoleCtrl = roleCtrl;
+        m_NextPatrolTime = Time.time + Random.Range(3, 5);
     }
 
 

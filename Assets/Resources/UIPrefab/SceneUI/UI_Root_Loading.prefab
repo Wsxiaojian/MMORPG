@@ -1093,7 +1093,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Center_Container: {fileID: 4829158212238610524}
-  UICamera: {fileID: 0}
+  UICamera: {fileID: 4829158212396542145}
   m_LoadingSlider: {fileID: 961562302}
   m_Txt_Process: {fileID: 1109332717}
   _Tf_ProcessAnim: {fileID: 149849793025047631}

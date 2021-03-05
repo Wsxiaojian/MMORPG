@@ -120,6 +120,7 @@ public class CitySceneCtrl : MonoBehaviour
             {
                 if (hitInfo.collider.gameObject.name.Equals("Ground", System.StringComparison.CurrentCultureIgnoreCase))
                 {
+                    GlobalInit.Instance.CurPlayer.LockEnemy = null;
                     GlobalInit.Instance.CurPlayer.DoMove(hitInfo.point);
                 }
             }

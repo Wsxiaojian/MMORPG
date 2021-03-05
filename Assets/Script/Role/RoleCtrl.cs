@@ -29,7 +29,7 @@ public class RoleCtrl : MonoBehaviour
     /// <summary>
     /// 出生点
     /// </summary>
-    [HideInInspector]
+   // [HideInInspector]
     public Vector3 BornPos;
 
     /// <summary>
@@ -112,23 +112,28 @@ public class RoleCtrl : MonoBehaviour
             CameraCtrl.Instance.Init();
         }
 
-        BornPos = transform.position;
+        //BornPos = transform.position;
     }
 
 
     private void Update()
     {
+        //更新AI控制
         if (m_CurRoleAI != null)
-            m_CurRoleAI.DoAI();
-        if (CurRoleFSMMgr != null)
-            CurRoleFSMMgr.OnUpdate();
-
-
-
-        if (CharacterController.isGrounded == false)
         {
-            CharacterController.Move(transform.position + new Vector3(0, -100, 0) - transform.position);
+            m_CurRoleAI.DoAI();
         }
+
+        //更新状态
+        if (CurRoleFSMMgr != null)
+        {
+            CurRoleFSMMgr.OnUpdate();
+        }
+
+        //if (CharacterController.isGrounded == false)
+        //{
+        //    CharacterController.Move(new Vector3(0, -100, 0));
+        //}
 
 
         if (CurRoleType == RoleType.MainPlayer &&  CameraCtrl.Instance != null)
@@ -200,7 +205,7 @@ public class RoleCtrl : MonoBehaviour
         if (targetPos != Vector3.zero)
         {
             TargetPos = targetPos;
-            TargetPos.y = 0;
+            //TargetPos.y = 0;
             CurRoleFSMMgr.ChangeState(RoleStateType.Run);
         }
     }

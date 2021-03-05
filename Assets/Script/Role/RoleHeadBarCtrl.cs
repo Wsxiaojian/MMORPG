@@ -107,17 +107,13 @@ public class RoleHeadBarCtrl : MonoBehaviour
         }
 
         CurHUD_List = new List<Text>();
+
+        FollowTarget();
     }
 
     private void Update()
     {
-        //头顶跟随
-        if (m_TargetPos != null)
-        {
-            Vector3 viewPos = Camera.main.WorldToViewportPoint(m_TargetPos.position);
-
-            transform.position = SceneUIMgr.Instance.CurUIScene.UICamera.ViewportToWorldPoint(viewPos);
-        }
+        FollowTarget();
     }
 
     /// <summary>
@@ -152,5 +148,18 @@ public class RoleHeadBarCtrl : MonoBehaviour
         //血条
         if (Tf_HpSlider.gameObject.activeSelf)
             Img_HpSlider.DOFillAmount(hpRate, 0.2f);
+    }
+
+    /// <summary>
+    ///   //头顶跟随
+    /// </summary>
+    private void FollowTarget()
+    {    //头顶跟随
+        if (m_TargetPos != null)
+        {
+            Vector3 viewPos = Camera.main.WorldToViewportPoint(m_TargetPos.position);
+
+            transform.position = SceneUIMgr.Instance.CurUIScene.UICamera.ViewportToWorldPoint(viewPos);
+        }
     }
 }
