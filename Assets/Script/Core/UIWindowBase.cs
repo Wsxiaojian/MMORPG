@@ -46,6 +46,7 @@ public class UIWindowBase : UIBase
     protected virtual void Close()
     {
         WindowUIMgr.Instance.CloseWindow(CurrentUIType);
+        
     }
 
     /// <summary>
