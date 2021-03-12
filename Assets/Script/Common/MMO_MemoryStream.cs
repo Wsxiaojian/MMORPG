@@ -1,5 +1,5 @@
 //***********************************************************
-// 描述：将通用类型转化为 byte数组 short ushort int uint long  ulong  float double string
+// 描述：将通用类型转化为 byte数组 short ushort int uint long  ulong  float double bool string
 // 作者：fanwei 
 // 创建时间：2021-03-11 17:24:49 
 // 版本：1.0 
@@ -10,10 +10,20 @@ using System.IO;
 using System.Text;
 
 /// <summary>
-/// 转换byte数组  short ushort int uint long  ulong  float double string
+/// 转换byte数组  short ushort int uint long  ulong  float double bool string
 /// </summary>
 public class MMO_MemoryStream : MemoryStream
 {
+    public MMO_MemoryStream()
+    {
+
+    }
+
+    public MMO_MemoryStream(byte[] buffer) : base(buffer)
+    {
+
+    }
+
     #region short
     /// <summary>
     /// 从流中读取一个 short 字段
@@ -32,7 +42,7 @@ public class MMO_MemoryStream : MemoryStream
     public void WriteShort(short data)
     {
         byte[] buffer = BitConverter.GetBytes(data);
-        base.Write(buffer, 0, buffer.Length);
+        base.Write(buffer, 0, 2);
     }
     #endregion
 
@@ -54,7 +64,7 @@ public class MMO_MemoryStream : MemoryStream
     public void WriteUShort(ushort data)
     {
         byte[] buffer = BitConverter.GetBytes(data);
-        base.Write(buffer, 0, buffer.Length);
+        base.Write(buffer, 0, 2);
     }
     #endregion
 
@@ -76,7 +86,7 @@ public class MMO_MemoryStream : MemoryStream
     public void WriteInt(int data)
     {
         byte[] buffer = BitConverter.GetBytes(data);
-        base.Write(buffer, 0, buffer.Length);
+        base.Write(buffer, 0, 4);
     }
     #endregion
 
@@ -98,7 +108,7 @@ public class MMO_MemoryStream : MemoryStream
     public void WriteUInt(uint data)
     {
         byte[] buffer = BitConverter.GetBytes(data);
-        base.Write(buffer, 0, buffer.Length);
+        base.Write(buffer, 0, 4);
     }
     #endregion
 
@@ -120,7 +130,7 @@ public class MMO_MemoryStream : MemoryStream
     public void WriteLong(long data)
     {
         byte[] buffer = BitConverter.GetBytes(data);
-        base.Write(buffer, 0, buffer.Length);
+        base.Write(buffer, 0, 8);
     }
     #endregion
 
@@ -142,7 +152,7 @@ public class MMO_MemoryStream : MemoryStream
     public void WriteULong(ulong data)
     {
         byte[] buffer = BitConverter.GetBytes(data);
-        base.Write(buffer, 0, buffer.Length);
+        base.Write(buffer, 0, 8);
     }
     #endregion
 
@@ -164,7 +174,7 @@ public class MMO_MemoryStream : MemoryStream
     public void WriteFloat(float data)
     {
         byte[] buffer = BitConverter.GetBytes(data);
-        base.Write(buffer, 0, buffer.Length);
+        base.Write(buffer, 0, 4);
     }
     #endregion
 
@@ -180,15 +190,36 @@ public class MMO_MemoryStream : MemoryStream
         return BitConverter.ToDouble(buffer, 0);
     }
     /// <summary>
-    /// 往流中写一个 long 字段
+    /// 往流中写一个 double 字段
     /// </summary>
     /// <param name="data"></param>
     public void WriteDouble(double data)
     {
         byte[] buffer = BitConverter.GetBytes(data);
-        base.Write(buffer, 0, buffer.Length);
+        base.Write(buffer, 0, 8);
     }
     #endregion
+
+    #region Bool
+    /// <summary>
+    /// 从流中读取一个bool数据
+    /// </summary>
+    /// <returns></returns>
+    public bool ReadBool()
+    {
+        return base.ReadByte() == 1;
+    }
+
+    /// <summary>
+    /// 往流中写一个 bool 字段
+    /// </summary>
+    /// <param name="value"></param>
+    public void WriteBool(bool data)
+    {
+        base.WriteByte((byte)(data == true ? 1 : 0));
+    }
+    #endregion
+
 
     #region string
     /// <summary>
@@ -209,8 +240,11 @@ public class MMO_MemoryStream : MemoryStream
     public void WriteString(string data)
     {
         byte[] buffer = Encoding.UTF8.GetBytes(data);
-        byte[] len = BitConverter.GetBytes((ushort)buffer.Length);
-        base.Write(len, 0, 2);
+        if (buffer.Length > 65535)
+        {
+            throw new InvalidCastException("字符串超出范围");
+        }
+        WriteUShort((ushort)buffer.Length);
         base.Write(buffer, 0, buffer.Length);
     }
     #endregion
