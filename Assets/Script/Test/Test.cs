@@ -21,14 +21,16 @@ public class Test : MonoBehaviour
         //{
         //    Debug.Log(string.Format("{0} = {1}",i,buffer[i]));
         //}
-        string data = "我是大笨蛋。";
-        using (MMO_MemoryStream ms = new MMO_MemoryStream())
-        {
-            ms.WriteUTF8String(data);
-            ms.Position = 0;
+        //string data = "我是大笨蛋。";
+        //using (MMO_MemoryStream ms = new MMO_MemoryStream())
+        //{
+        //    ms.WriteUTF8String(data);
+        //    ms.Position = 0;
 
-            Debug.Log(ms.ReadUTF8String());
-        }
+        //    Debug.Log(ms.ReadUTF8String());
+        //}
+        Debug.Log(ProductDBModel.Instance.Get(5).Name);
+        ProductDBModel.Instance.GetAll();
     }
 
     // Update is called once per frame
