@@ -1,11 +1,10 @@
 //***********************************************************
-// 描述：
+// 描述：抽象数据实体控制类
 // 作者：fanwei 
 // 创建时间：2021-03-12 17:43:46 
 // 版本：1.0 
 // 备注：
 //***********************************************************
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,7 +13,7 @@ using UnityEngine;
 /// </summary>
 /// <typeparam name="T"></typeparam>
 /// <typeparam name="P"></typeparam>
-public abstract class AbstractDbModel<T, P>
+public abstract class AbstractDBModel<T, P>
     where T : class, new()          //实体控制类
     where P : AbstractEntity      //实体信息类
 {
@@ -48,7 +47,7 @@ public abstract class AbstractDbModel<T, P>
     /// <summary>
     /// 构造方法
     /// </summary>
-    protected AbstractDbModel()
+    protected AbstractDBModel()
     {
         m_PDataList = new List<P>();
         m_PDataDic = new Dictionary<int, P>();
@@ -63,19 +62,32 @@ public abstract class AbstractDbModel<T, P>
     private void LoadData()
     {
         //读取文件data数据
+        string path = string.Format("{0}/DataToExcel/{1}", Application.dataPath, FileName);
+        using(GameDataTableParser parser = new GameDataTableParser(path))
+        {
+            while (parser.Eof ==false)
+            {
+                //创建实体
+                P p = MakeEntity(parser);
 
-        //
+                m_PDataList.Add(p);
+                m_PDataDic[p.ID] = p;
+
+                //下一个
+                parser.Next();
+            }
+        }
     }
 
     #region 子类实现
     /// <summary>
     /// 子类实现   文件名
     /// </summary>
-    protected abstract string FileName { get; set; }
+    protected abstract string FileName { get; }
     /// <summary>
     /// 子类实现   创建实体
     /// </summary>
-    protected abstract P MakeEntity();
+    protected abstract P MakeEntity(GameDataTableParser parser);
     #endregion
 
 

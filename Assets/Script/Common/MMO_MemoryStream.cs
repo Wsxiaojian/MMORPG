@@ -226,7 +226,7 @@ public class MMO_MemoryStream : MemoryStream
     /// 从流中读取一个 string 字段
     /// </summary>
     /// <returns></returns>
-    public string ReadString()
+    public string ReadUTF8String()
     {
         ushort count = ReaduUShort();
         byte[] buffer = new byte[count];
@@ -237,7 +237,7 @@ public class MMO_MemoryStream : MemoryStream
     /// 往流中写一个 string 字段
     /// </summary>
     /// <param name="data"></param>
-    public void WriteString(string data)
+    public void WriteUTF8String(string data)
     {
         byte[] buffer = Encoding.UTF8.GetBytes(data);
         if (buffer.Length > 65535)

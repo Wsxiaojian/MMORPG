@@ -66,8 +66,7 @@ public enum TransToName
 }
 #endregion
 
-
-#region 场景UI类型 SceneUIType
+#region 场景类型 SceneType
 /// <summary>
 /// 场景类型
 /// </summary>
@@ -133,6 +132,7 @@ public enum WindowUIType
     RoleInfo,
 }
 #endregion
+
 #region 窗口挂载点类型 WindowUIContainerType
 /// <summary>
 /// 窗口挂载点类型
@@ -162,7 +162,7 @@ public enum WindowUIContainerType
 }
 #endregion
 
-#region 窗口挂载点类型 WindowUIContainerType
+#region 窗口显示样式 WindowShowStyle
 /// <summary>
 /// 窗口显示样式
 /// </summary>

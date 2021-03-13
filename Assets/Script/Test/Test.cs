@@ -24,10 +24,10 @@ public class Test : MonoBehaviour
         string data = "我是大笨蛋。";
         using (MMO_MemoryStream ms = new MMO_MemoryStream())
         {
-            ms.WriteString(data);
+            ms.WriteUTF8String(data);
             ms.Position = 0;
 
-            Debug.Log(ms.ReadString());
+            Debug.Log(ms.ReadUTF8String());
         }
     }
 
