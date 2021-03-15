@@ -43,7 +43,7 @@ public abstract class AbstractDBModel<T, P>
         }
     }
     #endregion
-
+    
     /// <summary>
     /// 构造方法
     /// </summary>
@@ -61,9 +61,11 @@ public abstract class AbstractDBModel<T, P>
     /// </summary>
     private void LoadData()
     {
+        //路径后期修改为Application.persistentDataPath/Data/LocalData
         //读取文件data数据
-        string path = string.Format("{0}/DataToExcel/{1}", Application.dataPath, FileName);
-        using(GameDataTableParser parser = new GameDataTableParser(path))
+        string path = string.Format("{0}/DataToExcel/{1}", Application.dataPath.Substring(0, Application.dataPath.LastIndexOf("/Assets") + 1), FileName);
+
+        using (GameDataTableParser parser = new GameDataTableParser(path))
         {
             while (parser.Eof ==false)
             {

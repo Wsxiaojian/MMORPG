@@ -1,16 +1,29 @@
 using System;
 using System.IO;
-using UnityEditor;
-using UnityEngine;
 
+/// <summary>
+/// cs文件自动生成标注信息
+/// </summary>
 public class ScriptCreateInit : UnityEditor.AssetModificationProcessor
 {
+    /// <summary>
+    /// 不需要创建标注的排除路径
+    /// </summary>
+    private static string[] m_ExcludePath =
+    {
+        //本地数据 自动创建  DBModel 和 Entity
+        "Script/Data/LocalData/Create/",
+
+    };
+
    public static void  OnWillCreateAsset(string path)
     {
-        Debug.Log("111" + path);
         path = path.Replace(".meta", "");
         if (path.EndsWith(".cs"))
         {
+            //先判断是否是排除路径
+            if (IsExcludePath(path)) return;
+
             string strContent =
             "//***********************************************************\r\n"
             + "// 描述：\r\n"
@@ -24,8 +37,23 @@ public class ScriptCreateInit : UnityEditor.AssetModificationProcessor
             
 
             File.WriteAllText(path, strContent);
-            //AssetDatabase.Refresh();
         }
     }
 
+    /// <summary>
+    /// 判断路径是否是排除路径
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    private static bool  IsExcludePath(string path)
+    {
+        for (int i = 0; i < m_ExcludePath.Length; i++)
+        {
+            if (path.Contains(m_ExcludePath[i]))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

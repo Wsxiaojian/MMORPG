@@ -1,21 +1,14 @@
 //***********************************************************
-// 描述：
-// 作者：fanwei 
-// 创建时间：2021-03-14 02:32:10 
-// 版本：1.0 
-// 备注：
-//***********************************************************
-//***********************************************************
 // 描述：Product数据管理类
 // 作者：fanwei 
-// 创建时间：2021-03-14 02:32:05 
+// 创建时间：2021-03-15 12:22:34 
 // 版本：1.0 
 // 备注：此代码为工具生成 请勿手工修改
 //***********************************************************
 /// <summary>
 /// Product数据管理类
 /// </summary>
-public class ProductDBModel : AbstractDBModel<ProductDBModel, ProductEntity>
+public partial class ProductDBModel : AbstractDBModel<ProductDBModel, ProductEntity>
 {
     /// <summary>
    /// 文件名称
@@ -34,6 +27,7 @@ public class ProductDBModel : AbstractDBModel<ProductDBModel, ProductEntity>
       entity.Piece = parser.GetFileValue(parser.FieldName[2]).ToInt();
       entity.PicName = parser.GetFileValue(parser.FieldName[3]);
       entity.Desc = parser.GetFileValue(parser.FieldName[4]);
+      entity.Pos = parser.GetFileValue(parser.FieldName[5]);
       return entity;
    }
 }

@@ -38,11 +38,40 @@ public class ExcelToData:Editor
         return true;
     }
 
+
+    /// <summary>
+    /// 查看所有数据
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    public static string DoViewData(string path)
+    {
+        StringBuilder sb = new StringBuilder();
+        using (GameDataTableParser parser = new GameDataTableParser(path))
+        {
+            int colums = parser.FieldName.Length;
+            while (parser.Eof == false)
+            {
+                for (int i = 0; i < colums; i++)
+                {
+                    sb.Append(parser.GetFileValue(parser.FieldName[i]));
+                    sb.Append("     ");
+                }
+                sb.AppendLine();
+
+                //下一个
+                parser.Next();
+            }
+        }
+        return sb.ToString();
+    }
+
+
     /// <summary>
     /// 读取Excel表格数据
     /// </summary>
     /// <returns></returns>
-    public static DataTable LoadExcelData(string path)
+    private  static DataTable LoadExcelData(string path)
     {
 
         if (string.IsNullOrEmpty(path)) return null;
@@ -68,7 +97,7 @@ public class ExcelToData:Editor
     /// </summary>
     /// <param name="path"></param>
     /// <param name="dt"></param>
-    public static void CreateData(string path, DataTable dt)
+    private  static void CreateData(string path, DataTable dt)
     {
         //文件夹路径
         string filePath = path.Substring(0, path.LastIndexOf('/') + 1);
@@ -176,7 +205,7 @@ public class ExcelToData:Editor
         sb.AppendLine();
         sb.Append("/// </summary>");
         sb.AppendLine();
-        sb.Append(string.Format("public class {0}DBModel : AbstractDBModel<{0}DBModel, {0}Entity>",fileName));
+        sb.Append(string.Format("public partial class {0}DBModel : AbstractDBModel<{0}DBModel, {0}Entity>", fileName));
         sb.AppendLine();
         sb.Append("{");
         sb.AppendLine();
@@ -265,7 +294,7 @@ public class ExcelToData:Editor
         sb.AppendLine();
         sb.Append("/// </summary>");
         sb.AppendLine();
-        sb.Append(string.Format("public class {0}Entity : AbstractEntity",fileName));
+        sb.Append(string.Format("public partial class {0}Entity : AbstractEntity", fileName));
         sb.AppendLine();
         sb.Append("{");
         sb.AppendLine();
@@ -293,28 +322,32 @@ public class ExcelToData:Editor
         }
     }
 
-/// <summary>
-/// 根据类型字段
-/// </summary>
-/// <param name="type"></param>
-/// <returns></returns>
-private static string ChangeToType(string type)
-    {
-        string result = "";
-        switch (type)
+    /// <summary>
+    /// 根据类型字段
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    private static string ChangeToType(string type)
         {
-            case "int":
-                result = ".ToInt()";
-                break;
-            case "float":
-                result = ".ToFloat()";
-                break;
-            case "long":
-                result = ".ToLong()";
-                break;
+            string result = "";
+            switch (type)
+            {
+                case "int":
+                    result = ".ToInt()";
+                    break;
+                case "float":
+                    result = ".ToFloat()";
+                    break;
+                case "long":
+                    result = ".ToLong()";
+                    break;
+            }
+
+            return result;
+
         }
 
-        return result;
 
-    }
+
+
 }

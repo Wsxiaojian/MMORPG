@@ -28,10 +28,10 @@ public class GameDataTableParser : IDisposable
     /// <param name="path"></param>
     public GameDataTableParser(string path)
     {
-        byte[] buffer = null;
         //-------------------------------
         // 第一步 读取文件
         //------------------------------
+        byte[] buffer = null;
         using (FileStream fs = new FileStream(path, FileMode.Open))
         {
             buffer = new byte[fs.Length];
