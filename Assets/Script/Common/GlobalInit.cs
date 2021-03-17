@@ -20,6 +20,11 @@ public class GlobalInit : MonoBehaviour
     /// 密码
     /// </summary>
     public const string MMO_PWD= "MMO_PWD";
+
+    /// <summary>
+    /// web 账号服务器Url
+    /// </summary>
+    public const string WebAccountUrl = "http://192.168.81.128:8080/";
     #endregion
 
 

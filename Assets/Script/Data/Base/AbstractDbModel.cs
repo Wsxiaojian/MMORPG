@@ -10,12 +10,12 @@ using UnityEngine;
 
 /// <summary>
 /// 抽象数据实体控制类
-/// </summary>
-/// <typeparam name="T"></typeparam>
-/// <typeparam name="P"></typeparam>
+/// </summary> 
+/// <typeparam name="T">实体数据管理类</typeparam> 
+/// <typeparam name="P">实体数据信息类</typeparam>
 public abstract class AbstractDBModel<T, P>
-    where T : class, new()          //实体控制类
-    where P : AbstractEntity      //实体信息类
+    where T : class, new()  
+    where P : AbstractEntity    
 {
     /// <summary>
     /// 数据集合

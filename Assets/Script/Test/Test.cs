@@ -15,13 +15,54 @@ public class Test : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        List<ProductEntity> datas = ProductDBModel.Instance.GetAll();
-        for (int i = 0; i < datas.Count; i++)
+
+
+        //NetWorkHttp.Instance.SendData(GlobalInit.WebAccountUrl + "api/account/3", GetCallBack);
+
+        if(NetWorkHttp.Instance.IsBusy == false)
         {
-            Debug.Log(datas[i].Name);
+            //pos参数
+            LitJson.JsonData jsonData = new LitJson.JsonData();
+            jsonData["Type"] = 0;  //0 注册 1登陆
+            jsonData["UserName"] = "XXX";
+            jsonData["Pwd"] = "123";
+
+            NetWorkHttp.Instance.SendData(GlobalInit.WebAccountUrl + "api/account", PostCallBack, true, jsonData.ToJson());
+        }
+
+    }
+
+
+
+    private void GetCallBack(NetWorkHttp.CallBackArgs obj)
+    {
+        if (obj.HasError)
+        {
+            Debug.Log(obj.ErrorMsg);
+        }
+        else
+        {
+            RetAccountEntity retAccountEntity = LitJson.JsonMapper.ToObject<RetAccountEntity>(obj.Json);
+
+            Debug.Log(retAccountEntity.UserName);
         }
     }
 
+
+    private void PostCallBack(NetWorkHttp.CallBackArgs obj)
+    {
+        if (obj.HasError)
+        {
+
+        }
+        else
+        {
+            RetValue ret = LitJson.JsonMapper.ToObject<RetValue>(obj.Json);
+
+
+            Debug.Log(ret.RetData);
+        }
+    }
     // Update is called once per frame
     void Update()
     {
