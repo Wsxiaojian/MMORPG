@@ -49,4 +49,6 @@ public class UISceneLoadingCtrl : UISceneBase
 
         _Tf_ProcessAnim.localPosition = new Vector3(760 * value, 0, 0);
     }
+
+     
 }

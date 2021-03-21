@@ -12,30 +12,8 @@ using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
 
-public class NetWorkSocket : MonoBehaviour
+public class NetWorkSocket : SingletonMono<NetWorkSocket>
 {
-    #region 单例
-    private static NetWorkSocket instance;
-    /// <summary>
-    /// 单例 
-    /// </summary>
-    public static NetWorkSocket Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                GameObject obj = new GameObject("NetWorkSocket");
-                instance = obj.GetOrCreateComponent<NetWorkSocket>();
-
-                DontDestroyOnLoad(obj);
-            }
-            return instance;
-        }
-    }
-    #endregion
-
-
     /// <summary>
     /// 客户端socket
     /// </summary>
@@ -50,6 +28,11 @@ public class NetWorkSocket : MonoBehaviour
     /// 检查消息队列
     /// </summary>
     private Action m_CheckSendQueue;
+
+    /// <summary>
+    /// 压缩最小字节书
+    /// </summary>
+    private const int m_CompressLen = 200;
     #endregion
 
     #region 接受数据包 属性
@@ -148,9 +131,27 @@ public class NetWorkSocket : MonoBehaviour
     private byte[] MakeData(byte[] buffer)
     {
         byte[] data;
+
+        //1.是否压缩
+        bool isCompress = false;
+        if (buffer.Length > m_CompressLen)
+        {
+            isCompress = true;
+            buffer = ZlibHelper.CompressBytes(buffer);
+        }
+
+        //2.异或
+        buffer = SecurityUtil.Xor(buffer);
+
+        //3.循环校验
+        ushort cyc = Crc16.CalculateCrc16(buffer);
+
+
         using (MMO_MemoryStream ms = new MMO_MemoryStream())
         {
-            ms.WriteUShort((ushort)buffer.Length);
+            ms.WriteUShort((ushort)(buffer.Length + 3));
+            ms.WriteBool(isCompress);
+            ms.WriteUShort(cyc);
             ms.Write(buffer, 0, buffer.Length);
 
             data = ms.ToArray();
@@ -237,6 +238,7 @@ public class NetWorkSocket : MonoBehaviour
                             byte[] buffer = new byte[currMsgLen];
                             //把数据流指针放到2的位置 也就是包体的位置
                             m_ReceiveMs.Position = 2;
+                            //实际内容
                             m_ReceiveMs.Read(buffer, 0, currMsgLen);
 
                             //加入队列中
@@ -303,8 +305,13 @@ public class NetWorkSocket : MonoBehaviour
     }
     #endregion
 
-    private void Update()
+    /// <summary>
+    /// 处理收到的数据包
+    /// </summary>
+    protected override void OnUpdate()
     {
+        base.OnUpdate();
+
         m_ReceiveIndex = 0;
 
         while (true)
@@ -317,17 +324,48 @@ public class NetWorkSocket : MonoBehaviour
                     if (m_ReceiveQueue.Count > 0)
                     {
                         byte[] buffer = m_ReceiveQueue.Dequeue();
+
                         //处理读到的包体内容
-                        ushort protoCode = 0;
-                        byte[] msgData = new byte[buffer.Length-2];
+                        //1byte 压缩标志 2byte crc循环校验码 异或之后数组
+                        bool isCompress = false;
+                        ushort crc = 0;
+                        byte[] bufferNew = new byte[buffer.Length - 3];
+
                         using (MMO_MemoryStream ms = new MMO_MemoryStream(buffer))
                         {
-                            //包体前两位为 协议号
-                            protoCode = ms.ReaduUShort();
-                            ms.Read(msgData, 0, msgData.Length);
+                            isCompress = ms.ReadBool();
+                            crc = ms.ReaduUShort();
+                            ms.Read(bufferNew, 0, bufferNew.Length);
                         }
 
-                        EventDispatch.Instance.Dispatch(protoCode, msgData);
+                        //计算Crc
+                        ushort crcNew = Crc16.CalculateCrc16(bufferNew);
+                        if (crc == crcNew)
+                        {
+                            //1.异或
+                            bufferNew = SecurityUtil.Xor(bufferNew);
+
+
+                            //2.解压缩
+                            if (isCompress)
+                            {
+                                bufferNew = ZlibHelper.DeCompressBytes(bufferNew);
+                            }
+
+
+                            //3.实际数据包内容
+                            ushort protoCode = 0;
+                            byte[] msgData = new byte[bufferNew.Length - 2];
+                            using (MMO_MemoryStream ms = new MMO_MemoryStream(bufferNew))
+                            {
+                                //包体前两位为 协议号
+                                protoCode = ms.ReaduUShort();
+                                ms.Read(msgData, 0, msgData.Length);
+                            }
+
+                            EventDispatch.Instance.Dispatch(protoCode, msgData);
+                        }
+                       
                     }
                     else
                     {
@@ -342,8 +380,17 @@ public class NetWorkSocket : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+
+    /// <summary>
+    /// 销毁
+    /// </summary>
+    protected override void BeforeOnDestroy()
     {
-        m_ClientSocket.Close();
+        base.BeforeOnDestroy();
+        if(m_ClientSocket !=null && m_ClientSocket.Connected)
+        {
+            m_ClientSocket.Shutdown(SocketShutdown.Both);
+            m_ClientSocket.Close();
+        }
     }
 }

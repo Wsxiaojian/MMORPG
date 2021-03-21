@@ -10,29 +10,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class NetWorkHttp : MonoBehaviour
+public class NetWorkHttp : SingletonMono<NetWorkHttp>
 {
-    #region 单例
-    private static NetWorkHttp instance;
-    /// <summary>
-    /// 单例 
-    /// </summary>
-    public static NetWorkHttp Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                GameObject obj = new GameObject("NetWorkHttp");
-                instance = obj.GetOrCreateComponent<NetWorkHttp>();
-
-                DontDestroyOnLoad(obj);
-            }
-            return instance;
-        }
-    }
-    #endregion
-
     #region 属性
     /// <summary>
     /// 请求数据回调
@@ -59,10 +38,12 @@ public class NetWorkHttp : MonoBehaviour
     }
     #endregion
 
-    private void Start()
+    protected override void OnStart()
     {
+        base.OnStart();
         m_CallBackArgs = new CallBackArgs();
     }
+
 
     #region 向服务器发送消息
     /// <summary>

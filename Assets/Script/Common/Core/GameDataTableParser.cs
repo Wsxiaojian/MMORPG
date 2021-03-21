@@ -14,14 +14,6 @@ using System.IO;
 /// </summary>
 public class GameDataTableParser : IDisposable
 {
-    #region xorScale 异或因子
-    /// <summary>
-    /// 异或因子
-    /// </summary>
-    private byte[] xorScale = new byte[] { 45, 66, 38, 55, 23, 254, 9, 165, 90, 19, 41, 45, 201, 58, 55, 37, 254, 185, 165, 169, 19, 171 };//.data文件的xor加解密因子
-    #endregion
-
-
     /// <summary>
     /// 构造函数
     /// </summary>
@@ -46,11 +38,7 @@ public class GameDataTableParser : IDisposable
         //-------------------------------
         // 第三步 xor 解密
         //------------------------------
-        int iScaleLen = xorScale.Length;
-        for (int i = 0; i < buffer.Length; i++)
-        {
-            buffer[i] = (byte)(buffer[i] ^ xorScale[i % iScaleLen]);
-        }
+        buffer = SecurityUtil.Xor(buffer);
 
         //-------------------------------
         // 第四步 读取byte数据

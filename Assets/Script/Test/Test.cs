@@ -30,63 +30,65 @@ public class Test : MonoBehaviour
         //    NetWorkHttp.Instance.SendData(GlobalInit.WebAccountUrl + "api/account", PostCallBack, true, jsonData.ToJson());
         //}
 
-        NetWorkSocket.Instance.Connect("192.168.81.131", 1011);
+        //NetWorkSocket.Instance.Connect("192.168.81.131", 1011);
 
-        EventDispatch.Instance.AddListenter(ProtoCodeDef.Email_Request_All, RequestTest);
+        //EventDispatch.Instance.AddListenter(ProtoCodeDef.Email_Request_All, RequestTest);
     }
 
-    private void RequestTest(byte[] msgData)
-    {
-        EmailRequestAll email = EmailRequestAll.Get(msgData);
+    //private void RequestTest(byte[] msgData)
+    //{
+    //    EmailRequestAll email = EmailRequestAll.Get(msgData);
 
-        Debug.LogFormat("客户端接收到消息:邮件编号：{0}邮件信息：{1}", email.EmailID, email.EmailInfo);
-    }
+    //    Debug.LogFormat("客户端接收到消息:邮件编号：{0}邮件信息：{1}", email.EmailID, email.EmailInfo);
+    //}
 
-    private void Send()
-    {
-        EmailRequestAll email = new EmailRequestAll();
-        email.EmailID = 1;
-        email.EmailInfo = "发送给服务器测试";
+    //private void Send()
+    //{
+    //    EmailRequestAll email = new EmailRequestAll();
+    //    email.EmailID = 1;
+    //    email.EmailInfo = "发送给服务器测试";
 
-        NetWorkSocket.Instance.SendMsg(email.ToArray());
-    }
-
-
-    private void GetCallBack(NetWorkHttp.CallBackArgs obj)
-    {
-        if (obj.HasError)
-        {
-            Debug.Log(obj.ErrorMsg);
-        }
-        else
-        {
-            RetAccountEntity retAccountEntity = LitJson.JsonMapper.ToObject<RetAccountEntity>(obj.Json);
-
-            Debug.Log(retAccountEntity.UserName);
-        }
-    }
+    //    NetWorkSocket.Instance.SendMsg(email.ToArray());
+    //}
 
 
-    private void PostCallBack(NetWorkHttp.CallBackArgs obj)
-    {
-        if (obj.HasError)
-        {
+    //private void GetCallBack(NetWorkHttp.CallBackArgs obj)
+    //{
+    //    if (obj.HasError)
+    //    {
+    //        Debug.Log(obj.ErrorMsg);
+    //    }
+    //    else
+    //    {
+    //        RetAccountEntity retAccountEntity = LitJson.JsonMapper.ToObject<RetAccountEntity>(obj.Json);
 
-        }
-        else
-        {
-            RetValue ret = LitJson.JsonMapper.ToObject<RetValue>(obj.Json);
+    //        Debug.Log(retAccountEntity.UserName);
+    //    }
+    //}
 
 
-            Debug.Log(ret.RetData);
-        }
-    }
+    //private void PostCallBack(NetWorkHttp.CallBackArgs obj)
+    //{
+    //    if (obj.HasError)
+    //    {
+
+    //    }
+    //    else
+    //    {
+    //        RetValue ret = LitJson.JsonMapper.ToObject<RetValue>(obj.Json);
+
+
+    //        Debug.Log(ret.RetData);
+    //    }
+    //}
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            Send();
+            //Send();
+
+            SceneMgr.Instance.LoadMainCity();
         }
     }
 }

@@ -54,6 +54,9 @@ public class CitySceneCtrl : MonoBehaviour
         GlobalInit.Instance.CurPlayer = roleCtrl;
 
         RoleInfoCtrl.Instance.SetInfo(roleInfo);
+
+        //场景加载完成
+        DelegateDef.Instance.OnSceneLoadOk?.Invoke();
     }
 
     private void Update()

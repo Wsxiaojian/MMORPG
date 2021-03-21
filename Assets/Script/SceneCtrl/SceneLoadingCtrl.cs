@@ -5,6 +5,7 @@
 // 版本：1.0
 // 备注：
 //***********************************************************
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,7 +13,7 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// loading场景管理
 /// </summary>
-public class LoadingSceneCtrl : MonoBehaviour
+public class SceneLoadingCtrl : MonoBehaviour
 {
     /// <summary>
     /// loadUi控制
@@ -31,7 +32,26 @@ public class LoadingSceneCtrl : MonoBehaviour
     private void Start()
     {
         m_CurProcess = 0;
+
+        DelegateDef.Instance.OnSceneLoadOk += OnSceneLoadOk;
+
         StartCoroutine(loadNextScene());
+    }
+
+    private void OnDestroy()
+    {
+        DelegateDef.Instance.OnSceneLoadOk -= OnSceneLoadOk;
+    }
+
+    /// <summary>
+    /// 删除自身
+    /// </summary>
+    private void OnSceneLoadOk()
+    {
+        //SceneManager.UnloadSceneAsync("Scene_Loading");
+
+        DestroyImmediate(m_UISceneLoadingCtrl.gameObject);
+        DestroyImmediate(gameObject);
     }
 
     /// <summary>
@@ -51,11 +71,13 @@ public class LoadingSceneCtrl : MonoBehaviour
                 break;
         }
 
-        m_AsyncOpt = SceneManager.LoadSceneAsync(nextSceneName);
+        m_AsyncOpt = SceneManager.LoadSceneAsync(nextSceneName,LoadSceneMode.Additive);
         m_AsyncOpt.allowSceneActivation = false;
 
         yield return m_AsyncOpt;
     }
+
+
 
     private void Update()
     {
@@ -85,4 +107,6 @@ public class LoadingSceneCtrl : MonoBehaviour
         //设置进度
         m_UISceneLoadingCtrl.SetProcess(m_CurProcess/100f);
     }
+
+
 }
