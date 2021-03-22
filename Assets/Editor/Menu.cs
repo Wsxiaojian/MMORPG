@@ -24,5 +24,11 @@ public class Menu
 
     }
 
-
+    [MenuItem("GameTool/Assetbundle")]
+    private static void OpenAssetbundleWindow()
+    {
+        AssetBundleWindow window = EditorWindow.GetWindow<AssetBundleWindow>();
+        window.titleContent = new GUIContent("资源打包");
+        window.Show();
+    }
 }

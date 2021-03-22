@@ -33,6 +33,17 @@ public class Test : MonoBehaviour
         //NetWorkSocket.Instance.Connect("192.168.81.131", 1011);
 
         //EventDispatch.Instance.AddListenter(ProtoCodeDef.Email_Request_All, RequestTest);
+
+        //1.获取byte数组
+
+        //AssetBundle.LoadFromMemory()
+
+        //AssetBundleMgr.Instance.LoadClone(@"Role/role_mainplayer.assetbundle", "Role_MainPlayer");
+        AssetBunldeLoaderAsync async=  AssetBundleMgr.Instance.LoadAsync(@"Role/role_mainplayer.assetbundle", "Role_MainPlayer");
+        async.OnComplete = (obj) =>
+         {
+             Instantiate(obj);
+         };
     }
 
     //private void RequestTest(byte[] msgData)
@@ -88,7 +99,7 @@ public class Test : MonoBehaviour
         {
             //Send();
 
-            SceneMgr.Instance.LoadMainCity();
+            //SceneMgr.Instance.LoadMainCity();
         }
     }
 }

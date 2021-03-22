@@ -1,0 +1,47 @@
+ManifestFileVersion: 0
+CRC: 2563473924
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 272ac0e9f7140bce5d2d2e47267cbc3d
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cbb899bc8969150a21b75430dba4c775
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: b248ab79561617044b7057e274f6e04e, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+- Class: 143
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Resources/RolePrefab/Player/Role_MainPlayer.prefab
+Dependencies: []

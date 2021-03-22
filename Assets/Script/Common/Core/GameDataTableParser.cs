@@ -23,12 +23,7 @@ public class GameDataTableParser : IDisposable
         //-------------------------------
         // 第一步 读取文件
         //------------------------------
-        byte[] buffer = null;
-        using (FileStream fs = new FileStream(path, FileMode.Open))
-        {
-            buffer = new byte[fs.Length];
-            fs.Read(buffer, 0, buffer.Length);
-        }
+        byte [] buffer = LocalFileMgr.Instance.GetByte(path);
 
         //-------------------------------
         // 第二步 解压缩

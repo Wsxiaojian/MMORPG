@@ -14,7 +14,6 @@ using System.Xml.Linq;
 /// </summary>
 public class AssetBundleDAL
 {
-
     /// <summary>
     /// xml 平台路径
     /// </summary>
@@ -42,10 +41,11 @@ public class AssetBundleDAL
 
         XDocument xDoc = XDocument.Load(m_Path);
         XElement rootElement = xDoc.Element("Root");
-        IEnumerable<XElement> assetBundleIE = rootElement.Elements();
+        XElement assetBundle   = rootElement.Element("AssetBundle");
+        IEnumerable<XElement> itemIE = assetBundle.Elements("Item");
 
         int index=0;
-        foreach(XElement item in assetBundleIE)
+        foreach(XElement item in itemIE)
         {
             AssetBundleEntity entity = new AssetBundleEntity();
             entity.Key = "key" + ++index;
