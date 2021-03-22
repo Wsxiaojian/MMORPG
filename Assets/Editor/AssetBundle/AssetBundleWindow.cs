@@ -1,5 +1,5 @@
 //***********************************************************
-// 描述：
+// 描述：AssetBundle资源打包窗口
 // 作者：fanwei 
 // 创建时间：2021-03-22 07:11:56 
 // 版本：1.0 
@@ -12,16 +12,23 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
+/// <summary>
+/// AssetBundle资源打包窗口
+/// </summary>
 public class AssetBundleWindow : EditorWindow
 {
     private List<AssetBundleEntity> m_EntityList = null;
     private Dictionary<string,bool> m_Dic = null;
 
-
+    /// <summary>
+    /// 标签Tag
+    /// </summary>
     private string[] tagArrs = new string[] { "All", "Role", "Scene", "Effect", "Audio", "None" };
     private int tagIndex = 0;
 
-
+    /// <summary>
+    /// 平台Target
+    /// </summary>
     private string[] targetArrs = new string[] { "Window", "Android", "IOS" };
 #if UNITY_STANDALONE_WIN
     private int targetIndex = 0;
@@ -39,6 +46,8 @@ public class AssetBundleWindow : EditorWindow
         AssetBundleDAL assetBundleDAL = new AssetBundleDAL(@"I:\workSpace\MyGitSpace\MMORPG\Assets\Editor\AssetBundle\AssetBundleConfig.xml");
         m_EntityList = assetBundleDAL.Get();
 
+        if (m_EntityList == null) m_EntityList = new List<AssetBundleEntity>();
+
         m_Dic = new Dictionary<string, bool>();
         for (int i = 0; i < m_EntityList.Count; i++)
         {
@@ -50,6 +59,7 @@ public class AssetBundleWindow : EditorWindow
     private void OnGUI()
     {
         //按钮
+        #region 按钮一行
         EditorGUILayout.BeginHorizontal("box");
         tagIndex = EditorGUILayout.Popup(tagIndex, tagArrs, GUILayout.Width(70));
         if (GUILayout.Button("选定Tag",GUILayout.Width(100)))
@@ -71,7 +81,9 @@ public class AssetBundleWindow : EditorWindow
         }
         EditorGUILayout.Space();
         EditorGUILayout.EndHorizontal();
+        #endregion
 
+        #region 资源内容标题行
         EditorGUILayout.BeginHorizontal("box");
         GUILayout.Label("包名");
         GUILayout.Label("标记", GUILayout.Width(100));
@@ -79,7 +91,9 @@ public class AssetBundleWindow : EditorWindow
         GUILayout.Label("版本", GUILayout.Width(100));
         GUILayout.Label("大小", GUILayout.Width(100));
         EditorGUILayout.EndHorizontal();
+        #endregion
 
+        #region 资源内容
         for (int i = 0; i < m_EntityList.Count; i++)
         {
             EditorGUILayout.BeginVertical();
@@ -102,9 +116,8 @@ public class AssetBundleWindow : EditorWindow
             }
             EditorGUILayout.EndVertical();
         }
+        #endregion
     }
-
-
 
     /// <summary>
     /// 选定Tag 处理
@@ -184,7 +197,10 @@ public class AssetBundleWindow : EditorWindow
         }
         Debug.Log("打包完成");
     }
-
+    /// <summary>
+    /// 单个AssetBundle打包
+    /// </summary>
+    /// <param name="entity"></param>
     private void BuildAssetBundle(AssetBundleEntity entity)
     {
         AssetBundleBuild[] assbundles = new AssetBundleBuild[1];
@@ -194,7 +210,7 @@ public class AssetBundleWindow : EditorWindow
         bundle.assetBundleName = entity.Name;
         //后缀
         bundle.assetBundleVariant = entity.Tag.Equals("Scene", StringComparison.CurrentCultureIgnoreCase) ? "unity3d" : "assetbundle";
-        //所有资源名称
+        //所有资源名称  PathList路径必须从 Assets 文件夹开始（包含Assets）
         bundle.assetNames = entity.PathList.ToArray();
 
         assbundles[0] = bundle;
@@ -206,7 +222,7 @@ public class AssetBundleWindow : EditorWindow
         {
             Directory.CreateDirectory(toPath);
         }
-
+        //别漏了assbundles 参数
         BuildPipeline.BuildAssetBundles(toPath, assbundles, BuildAssetBundleOptions.None, target);
     }
     /// <summary>

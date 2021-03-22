@@ -1,12 +1,10 @@
 //***********************************************************
-// 描述：
+// 描述：AssetBundle 资源加载管理
 // 作者：fanwei 
 // 创建时间：2021-03-22 16:06:56 
 // 版本：1.0 
 // 备注：
 //***********************************************************
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -42,7 +40,6 @@ public class AssetBundleMgr : Singleton<AssetBundleMgr>
             return Object.Instantiate(obj);
         }
     }
-
 
     /// <summary>
     /// 异步加载 资源

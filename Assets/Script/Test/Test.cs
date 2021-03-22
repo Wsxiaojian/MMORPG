@@ -30,7 +30,7 @@ public class Test : MonoBehaviour
         //    NetWorkHttp.Instance.SendData(GlobalInit.WebAccountUrl + "api/account", PostCallBack, true, jsonData.ToJson());
         //}
 
-        //NetWorkSocket.Instance.Connect("192.168.81.131", 1011);
+        NetWorkSocket.Instance.Connect("192.168.81.134", 1011);
 
         //EventDispatch.Instance.AddListenter(ProtoCodeDef.Email_Request_All, RequestTest);
 
@@ -39,11 +39,11 @@ public class Test : MonoBehaviour
         //AssetBundle.LoadFromMemory()
 
         //AssetBundleMgr.Instance.LoadClone(@"Role/role_mainplayer.assetbundle", "Role_MainPlayer");
-        AssetBunldeLoaderAsync async=  AssetBundleMgr.Instance.LoadAsync(@"Role/role_mainplayer.assetbundle", "Role_MainPlayer");
-        async.OnComplete = (obj) =>
-         {
-             Instantiate(obj);
-         };
+        //AssetBunldeLoaderAsync async=  AssetBundleMgr.Instance.LoadAsync(@"Role/role_mainplayer.assetbundle", "Role_MainPlayer");
+        //async.OnComplete = (obj) =>
+        // {
+        //     Instantiate(obj);
+        // };
     }
 
     //private void RequestTest(byte[] msgData)
@@ -53,14 +53,14 @@ public class Test : MonoBehaviour
     //    Debug.LogFormat("客户端接收到消息:邮件编号：{0}邮件信息：{1}", email.EmailID, email.EmailInfo);
     //}
 
-    //private void Send()
-    //{
-    //    EmailRequestAll email = new EmailRequestAll();
-    //    email.EmailID = 1;
-    //    email.EmailInfo = "发送给服务器测试";
+    private void Send()
+    {
+        EmailRequestAll email = new EmailRequestAll();
+        email.EmailID = 1;
+        email.EmailInfo = "发送给服务器测试";
 
-    //    NetWorkSocket.Instance.SendMsg(email.ToArray());
-    //}
+        NetWorkSocket.Instance.SendMsg(email.ToArray());
+    }
 
 
     //private void GetCallBack(NetWorkHttp.CallBackArgs obj)
@@ -97,7 +97,7 @@ public class Test : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            //Send();
+            Send();
 
             //SceneMgr.Instance.LoadMainCity();
         }

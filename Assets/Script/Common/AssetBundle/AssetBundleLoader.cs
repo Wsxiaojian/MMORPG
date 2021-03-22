@@ -1,5 +1,5 @@
 //***********************************************************
-// 描述：
+// 描述：AssetBundle同步加载器
 // 作者：fanwei 
 // 创建时间：2021-03-22 19:16:37 
 // 版本：1.0 
@@ -7,6 +7,9 @@
 //***********************************************************
 using UnityEngine;
 
+/// <summary>
+/// AssetBundle同步加载器
+/// </summary>
 public class AssetBundleLoader : System.IDisposable
 {
     private AssetBundle bundle = null;

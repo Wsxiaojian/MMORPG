@@ -1,5 +1,5 @@
 //***********************************************************
-// 描述：
+// 描述：异步AssetBundle加载器
 // 作者：fanwei 
 // 创建时间：2021-03-22 20:04:24 
 // 版本：1.0 
@@ -7,14 +7,27 @@
 //***********************************************************
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// 异步AssetBundle加载器
+/// </summary>
 public class AssetBunldeLoaderAsync : MonoBehaviour
 {
+    /// <summary>
+    /// assetbunle文件全路径
+    /// </summary>
     private string m_FullFilePath;
+    /// <summary>
+    /// 加载资源名称
+    /// </summary>
     private string m_Name;
+    /// <summary>
+    /// 异步Assetbundle请求
+    /// </summary>
     private AssetBundleCreateRequest abRequest;
+    /// <summary>
+    /// Assetbundle
+    /// </summary>
     private AssetBundle bundle;
 
     /// <summary>
@@ -22,7 +35,12 @@ public class AssetBunldeLoaderAsync : MonoBehaviour
     /// </summary>
     public Action<UnityEngine.Object> OnComplete;
 
-    public void Init(string path,string name)
+    /// <summary>
+    /// 初始化
+    /// </summary>
+    /// <param name="path"></param>
+    /// <param name="name"></param>
+    public void Init(string path, string name)
     {
         m_FullFilePath = LocalFileMgr.Instance.LocalFilePath + path;
         m_Name = name;
@@ -33,6 +51,10 @@ public class AssetBunldeLoaderAsync : MonoBehaviour
         StartCoroutine(Load());
     }
 
+    /// <summary>
+    /// 协程加载
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator Load()
     {
         abRequest = AssetBundle.LoadFromMemoryAsync(LocalFileMgr.Instance.GetByte(m_FullFilePath));

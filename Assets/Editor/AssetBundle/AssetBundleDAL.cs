@@ -1,5 +1,5 @@
 //***********************************************************
-// 描述：读取XML文件
+// 描述：读取XML文件  数据访问层DAL
 // 作者：fanwei 
 // 创建时间：2021-03-22 07:21:52 
 // 版本：1.0 
@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 
 /// <summary>
-/// 读取XML文件
+/// 读取XML文件  数据访问层DAL
 /// </summary>
 public class AssetBundleDAL
 {
