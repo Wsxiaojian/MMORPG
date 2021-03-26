@@ -45,7 +45,7 @@ public class UIWindowBase : UIBase
     /// </summary>
     protected virtual void Close()
     {
-        WindowUIMgr.Instance.CloseWindow(CurrentUIType);
+        UIViewUtil.Instance.CloseWindow(CurrentUIType);
         
     }
 
@@ -56,6 +56,6 @@ public class UIWindowBase : UIBase
     {
         LayerUIMgr.Instance.CheckOpenWindow();
         if (NextWindowUIType == WindowUIType.None) return;
-        WindowUIMgr.Instance.OpenWindow(NextWindowUIType);
+        UIViewUtil.Instance.OpenWindow(NextWindowUIType);
     }
 }

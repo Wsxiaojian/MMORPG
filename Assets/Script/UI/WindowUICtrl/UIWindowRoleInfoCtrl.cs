@@ -13,7 +13,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 角色信息窗口
 /// </summary>
-public class UIWindowRoleInfo : UIWindowBase
+public class UIWindowRoleInfoCtrl : UIWindowBase
 {
 
 

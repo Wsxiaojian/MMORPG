@@ -12,7 +12,7 @@ using DG.Tweening;
 /// <summary>
 /// 窗口UI管理器
 /// </summary>
-public class WindowUIMgr : Singleton<WindowUIMgr>
+public class UIViewUtil : Singleton<UIViewUtil>
 {
 
     /// <summary>
@@ -63,7 +63,7 @@ public class WindowUIMgr : Singleton<WindowUIMgr>
             switch (uIWindow.WindowUIContainerType)
             {
                 case WindowUIContainerType.Center:
-                    obj.transform.SetParent(SceneUIMgr.Instance.CurUIScene.Center_Container);
+                    obj.transform.SetParent(UISceneCtrl.Instance.CurUIScene.Center_Container);
                     break;
                 case WindowUIContainerType.TopLeft:
 
@@ -172,20 +172,22 @@ public class WindowUIMgr : Singleton<WindowUIMgr>
     /// <param name="isOpen"></param>
     private void CenterToBigAnim(UIWindowBase uIWindow, bool isOpen)
     {
+        uIWindow.gameObject.SetActive(true);
+        uIWindow.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        uIWindow.transform.DOScale(Vector3.one, uIWindow.Duration)
+               .SetEase(GlobalInit.Instance.UIAnimCurve)
+               .SetAutoKill(false)
+               .OnRewind(
+                () => DestoryWindowUI(uIWindow)
+            );
+
         if (isOpen)
         {
-            uIWindow.gameObject.SetActive(true);
-            uIWindow.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-            uIWindow.transform.DOScale(Vector3.one, uIWindow.Duration)
-                .SetEase(GlobalInit.Instance.UIAnimCurve);
+            uIWindow.transform.DOPlayForward();
         }
         else
         {
-            uIWindow.transform.DOScale(Vector3.zero, uIWindow.Duration)
-                .SetEase(GlobalInit.Instance.UIAnimCurve)
-                .OnComplete(() => {
-                    DestoryWindowUI(uIWindow);
-                });
+            uIWindow.transform.DOPlayBackwards();
         }
     }
 
@@ -197,52 +199,38 @@ public class WindowUIMgr : Singleton<WindowUIMgr>
     /// <param name="isOpen"></param>
     private void FromToAnim(UIWindowBase uIWindow, int type,bool isOpen)
     {
+        Vector3 targetPos = Vector3.zero;
+        switch (type)
+        {
+            case 0:
+                targetPos = new Vector3(0, 1000, 0);
+                break;
+            case 1:
+                targetPos = new Vector3(0, -1000, 0);
+                break;
+            case 2:
+                targetPos = new Vector3(-1400, 0, 0);
+                break;
+            case 3:
+                targetPos = new Vector3(1400, 0, 0);
+                break;
+        }
+        uIWindow.gameObject.SetActive(true);
+        uIWindow.transform.localPosition = Vector3.zero;
+        uIWindow.transform.DOLocalMove(targetPos, uIWindow.Duration)
+               .SetEase(GlobalInit.Instance.UIAnimCurve)
+               .SetAutoKill(false)
+               .OnRewind(
+                () => DestoryWindowUI(uIWindow)
+            );
+
         if (isOpen)
         {
-            Vector3 originPos = Vector3.zero;
-            switch (type)
-            {
-                case 0:
-                    originPos = new Vector3(0, 1000, 0);
-                    break;
-                case 1:
-                    originPos = new Vector3(0, -1000, 0);
-                    break;
-                case 2:
-                    originPos = new Vector3(-1400, 0, 0);
-                    break;
-                case 3:
-                    originPos = new Vector3(1400, 0, 0);
-                    break;
-            }
-
-            uIWindow.gameObject.SetActive(true);
-            uIWindow.transform.localPosition = originPos;
-            uIWindow.transform.DOLocalMove(Vector3.zero, uIWindow.Duration)
-                .SetEase(GlobalInit.Instance.UIAnimCurve);
+            uIWindow.transform.DOPlayForward();
         }
-        else{
-            Vector3 targetPos =Vector3.zero;
-            switch (type)
-            {
-                case 0:
-                    targetPos = new Vector3(0, 1000, 0);
-                    break;
-                case 1:
-                    targetPos = new Vector3(0, -1000, 0);
-                    break;
-                case 2:
-                    targetPos = new Vector3(-1400, 0, 0);
-                    break;
-                case 3:
-                    targetPos = new Vector3(1400, 0, 0);
-                    break;
-            }
-            uIWindow.transform.DOLocalMove(targetPos, uIWindow.Duration)
-                .SetEase(GlobalInit.Instance.UIAnimCurve)
-                .OnComplete(() => {
-                    DestoryWindowUI(uIWindow);
-                });
+        else
+        {
+            uIWindow.transform.DOPlayBackwards();
         }
     }
     #endregion

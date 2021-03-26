@@ -64,6 +64,6 @@ public class UISceneCityCtrl : UISceneBase
     private void BtnRoleIconClick()
     {
         //打开角色信息
-        WindowUIMgr.Instance.OpenWindow(WindowUIType.RoleInfo);
+        UIViewUtil.Instance.OpenWindow(WindowUIType.RoleInfo);
     }
 }

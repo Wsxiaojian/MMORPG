@@ -22,7 +22,7 @@ public class CitySceneCtrl : MonoBehaviour
 
     private void Awake()
     {
-        SceneUIMgr.Instance.LoadSceneUI(SceneUIType.MainCity);
+        UISceneCtrl.Instance.LoadSceneUI(SceneUIType.MainCity);
 
         if (FingerEvent.Instance != null)
         {

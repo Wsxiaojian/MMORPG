@@ -10,9 +10,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 场景UI加载管理
+/// 场景UI加载
 /// </summary>
-public class SceneUIMgr : Singleton<SceneUIMgr>
+public class UISceneCtrl : Singleton<UISceneCtrl>
 {
 
     /// <summary>

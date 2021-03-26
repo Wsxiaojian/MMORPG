@@ -159,7 +159,7 @@ public class RoleHeadBarCtrl : MonoBehaviour
         {
             Vector3 viewPos = Camera.main.WorldToViewportPoint(m_TargetPos.position);
 
-            transform.position = SceneUIMgr.Instance.CurUIScene.UICamera.ViewportToWorldPoint(viewPos);
+            transform.position = UISceneCtrl.Instance.CurUIScene.UICamera.ViewportToWorldPoint(viewPos);
         }
     }
 }

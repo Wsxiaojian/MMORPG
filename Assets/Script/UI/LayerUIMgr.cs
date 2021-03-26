@@ -22,7 +22,7 @@ public class LayerUIMgr : Singleton<LayerUIMgr>
     /// </summary>
     public void CheckOpenWindow()
     {
-        if(WindowUIMgr.Instance.OpenWindowNum == 0)
+        if(UIViewUtil.Instance.OpenWindowNum == 0)
         {
             ResetLayer();
         }
@@ -36,25 +36,19 @@ public class LayerUIMgr : Singleton<LayerUIMgr>
         m_CurLayerIndex = 50;
     }
 
-
     /// <summary>
     /// 设置UI层级
     /// </summary>
     /// <param name="obj"></param>
     public void SetLayer(GameObject obj)
     {
-        Canvas[]  canvas= obj.GetComponentsInChildren<Canvas>();
-
-        if (canvas != null)
-        {
-            for (int i = 0; i < canvas.Length; i++)
-            {
-                //+= 加等
-                canvas[i].sortingOrder += m_CurLayerIndex;
-            }
-        }
-
         m_CurLayerIndex++;
+
+        Canvas  canva= obj.GetComponent<Canvas>();
+        if (canva != null)
+        {
+            canva.sortingOrder = m_CurLayerIndex;
+        }
     }
   
 }

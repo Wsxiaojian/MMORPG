@@ -14,7 +14,7 @@ public class LogOnSceneCtrl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SceneUIMgr.Instance.LoadSceneUI(SceneUIType.LogOn);
+        UISceneCtrl.Instance.LoadSceneUI(SceneUIType.LogOn);
     }
 
     // Update is called once per frame

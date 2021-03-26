@@ -25,6 +25,6 @@ public class UISceneLogOnCtrl : UISceneBase
         yield return new WaitForSeconds(0.5f);
 
         //打开登陆窗口
-        WindowUIMgr.Instance.OpenWindow(WindowUIType.LogOn);
+        UIViewUtil.Instance.OpenWindow(WindowUIType.LogOn);
     }
 }
