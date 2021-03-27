@@ -5,8 +5,6 @@
 // 版本：1.0 
 // 备注：
 //***********************************************************
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -51,11 +49,13 @@ public class UILogonView : UIWindowViewBase
         {
             //登陆
             case "Btn_LogOn":
-
+                UIDispatcher.Instance.Dispatch(ConstDef.UILogonView_Btn_LogOn,
+                    new string[] { Inp_NickName.text.Trim() , Inp_Pwd.text.Trim() });
                 break;
             // 注册窗口
-            case "Btn_Reg":
+            case "Btn_ToReg":
                 //切换到注册窗口
+                UIDispatcher.Instance.Dispatch(ConstDef.UILogonView_Btn_ToReg);
                 break;
         }
     }

@@ -18,7 +18,7 @@ public class UISceneCtrl : Singleton<UISceneCtrl>
     /// <summary>
     /// 当前UIscene
     /// </summary>
-    public UISceneBase CurUIScene;
+    public UISceneViewBase CurUIScene;
     
 
     /// <summary>
@@ -44,7 +44,7 @@ public class UISceneCtrl : Singleton<UISceneCtrl>
 
         if (obj == null) return null;
 
-        CurUIScene = obj.GetComponent<UISceneBase>();
+        CurUIScene = obj.GetComponent<UISceneViewBase>();
 
         return obj;
     }

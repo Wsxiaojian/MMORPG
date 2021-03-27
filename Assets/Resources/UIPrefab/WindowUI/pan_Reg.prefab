@@ -886,7 +886,7 @@ GameObject:
   - component: {fileID: 2607398112801974241}
   - component: {fileID: 2607398112801974254}
   - component: {fileID: 2607398112801974240}
-  - component: {fileID: 8221762376461451535}
+  - component: {fileID: 9220668262458726174}
   m_Layer: 5
   m_Name: pan_Reg
   m_TagString: Untagged
@@ -955,7 +955,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &8221762376461451535
+--- !u!114 &9220668262458726174
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -964,14 +964,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2607398112801974242}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 900c4eb0025d74bf9b6dc359a6e5ceea, type: 3}
+  m_Script: {fileID: 11500000, guid: 353162e77cefde941ba54f3e508a5a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   WindowUIContainerType: 0
   WindowShowStyle: 2
   Duration: 0.2
   CurrentUIType: 0
-  NextWindowUIType: 0
+  IsOpenNext: 0
   Inp_NickName: {fileID: 2607398113142517147}
   Inp_Pwd: {fileID: 2607398112136432713}
   Inp_SurePwd: {fileID: 6212372186930493142}
@@ -1290,7 +1290,7 @@ GameObject:
   - component: {fileID: 8886044984330937494}
   - component: {fileID: 712477758488612100}
   m_Layer: 5
-  m_Name: Btn_LogOn
+  m_Name: Btn_ToLogOn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

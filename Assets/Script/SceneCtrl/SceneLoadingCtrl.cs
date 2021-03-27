@@ -19,7 +19,7 @@ public class SceneLoadingCtrl : MonoBehaviour
     /// loadUi控制
     /// </summary>
     [SerializeField]
-    private UISceneLoadingCtrl m_UISceneLoadingCtrl;
+    private UISceneLoadingView m_UISceneLoadingView;
 
 
     private AsyncOperation m_AsyncOpt;
@@ -50,7 +50,7 @@ public class SceneLoadingCtrl : MonoBehaviour
     {
         //SceneManager.UnloadSceneAsync("Scene_Loading");
 
-        DestroyImmediate(m_UISceneLoadingCtrl.gameObject);
+        DestroyImmediate(m_UISceneLoadingView.gameObject);
         DestroyImmediate(gameObject);
     }
 
@@ -105,7 +105,7 @@ public class SceneLoadingCtrl : MonoBehaviour
         }
 
         //设置进度
-        m_UISceneLoadingCtrl.SetProcess(m_CurProcess/100f);
+        m_UISceneLoadingView.SetProcess(m_CurProcess/100f);
     }
 
 

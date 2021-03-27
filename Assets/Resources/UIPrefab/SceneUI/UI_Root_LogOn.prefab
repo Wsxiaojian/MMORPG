@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5231628474197517920}
   - component: {fileID: 5231628474197517923}
   - component: {fileID: 5231628474197517922}
-  - component: {fileID: 5231628475517730564}
+  - component: {fileID: 3708884450397265529}
   m_Layer: 5
   m_Name: UI_Root_LogOn
   m_TagString: Untagged
@@ -106,7 +106,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &5231628475517730564
+--- !u!114 &3708884450397265529
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,7 +115,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5231628474197517917}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcf12724483c0458dbea751a25a900f9, type: 3}
+  m_Script: {fileID: 11500000, guid: b76df87eb55dbea478a88fd2c97a5354, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Center_Container: {fileID: 5231628475097946715}

@@ -419,7 +419,7 @@ GameObject:
   - component: {fileID: 5545028208854677358}
   - component: {fileID: 5545028208854677357}
   - component: {fileID: 5545028208854677356}
-  - component: {fileID: 5553147151585936770}
+  - component: {fileID: 6272455054172853691}
   m_Layer: 5
   m_Name: UI_Root_Init
   m_TagString: Untagged
@@ -513,7 +513,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &5553147151585936770
+--- !u!114 &6272455054172853691
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -522,7 +522,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5545028208854677331}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0ab7f9f438fdeb4f97ca9bac71c8e65, type: 3}
+  m_Script: {fileID: 11500000, guid: b558122e1ec3a4c789569037865321f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Center_Container: {fileID: 5545028208079473493}

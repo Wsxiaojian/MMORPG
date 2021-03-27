@@ -36,6 +36,7 @@ public class UIWindowViewBase : UIViewBase
     /// 是否打开下一个窗口 
     ///     主要用于 界面跳转 上一个界面动画完成 再播放下一界面动画
     /// </summary>
+    [HideInInspector]
     public bool IsOpenNext;
 
     /// <summary>
@@ -46,7 +47,7 @@ public class UIWindowViewBase : UIViewBase
     /// <summary>
     ///  关闭窗口
     /// </summary>
-    protected virtual void Close(bool isOpenNext)
+    public virtual void Close(bool isOpenNext)
     {
         IsOpenNext = isOpenNext;
         UIViewUtil.Instance.CloseWindow(CurrentUIType);

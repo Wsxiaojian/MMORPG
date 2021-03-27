@@ -910,7 +910,7 @@ GameObject:
   - component: {fileID: 4829158212478446695}
   - component: {fileID: 4829158212478446692}
   - component: {fileID: 4829158212478446693}
-  - component: {fileID: 5553147152787159742}
+  - component: {fileID: 1979449683001307018}
   m_Layer: 5
   m_Name: UI_Root_Loading
   m_TagString: Untagged
@@ -1004,7 +1004,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &5553147152787159742
+--- !u!114 &1979449683001307018
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1013,7 +1013,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4829158212478446682}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d55b9c6119f22ba4dbc5c5a43774c353, type: 3}
+  m_Script: {fileID: 11500000, guid: 7acac57d40a9b4a9a8ec8d2ec33a53d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Center_Container: {fileID: 4829158212238610524}

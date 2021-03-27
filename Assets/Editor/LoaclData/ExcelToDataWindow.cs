@@ -96,7 +96,7 @@ public class ExcelToDataWindow : EditorWindow
         }
         catch (Exception e)
         {
-            throw;
+            Debug.LogError(e.Message);
         }
     }
 

@@ -528,7 +528,7 @@ GameObject:
   - component: {fileID: 3271677403811881526}
   - component: {fileID: 6905703960034298788}
   m_Layer: 5
-  m_Name: Btn_Reg
+  m_Name: Btn_ToReg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -869,7 +869,7 @@ GameObject:
   - component: {fileID: 8221762376674517313}
   - component: {fileID: 8221762376674517326}
   - component: {fileID: 8221762376674517312}
-  - component: {fileID: 1164217890277619036}
+  - component: {fileID: 8575634174657673628}
   m_Layer: 5
   m_Name: pan_LogOn
   m_TagString: Untagged
@@ -939,7 +939,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &1164217890277619036
+--- !u!114 &8575634174657673628
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -948,14 +948,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 8221762376674517314}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3114ff5f5d964196a2f0350459165e0, type: 3}
+  m_Script: {fileID: 11500000, guid: 8db9c3ed47150f04c9e9da592ebfe07f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   WindowUIContainerType: 0
   WindowShowStyle: 2
   Duration: 0.2
   CurrentUIType: 0
-  NextWindowUIType: 0
+  IsOpenNext: 0
   Inp_NickName: {fileID: 8221762376335944507}
   Inp_Pwd: {fileID: 8221762377342012137}
   Txt_InputTip: {fileID: 1172145150781821078}

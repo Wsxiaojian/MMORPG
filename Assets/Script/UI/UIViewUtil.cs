@@ -1,5 +1,5 @@
 //***********************************************************
-// 描述：窗口UI管理器
+// 描述：窗口UI打开/关闭 工具类
 // 作者：fanwei 
 // 创建时间：2021-02-20 17:05:52
 // 版 本：1.0
@@ -10,7 +10,7 @@ using UnityEngine;
 using DG.Tweening;
 
 /// <summary>
-/// 窗口UI管理器
+/// 窗口UI打开/关闭 工具类
 /// </summary>
 public class UIViewUtil : Singleton<UIViewUtil>
 {
@@ -18,7 +18,7 @@ public class UIViewUtil : Singleton<UIViewUtil>
     /// <summary>
     /// 当前打开的窗口
     /// </summary>
-    private Dictionary<WindowUIType, UIWindowBase> m_DicWindows = new Dictionary<WindowUIType, UIWindowBase>();
+    private Dictionary<WindowUIType, UIWindowViewBase> m_DicWindows = new Dictionary<WindowUIType, UIWindowViewBase>();
     
     /// <summary>
     /// 当前打开窗口数量
@@ -44,7 +44,7 @@ public class UIViewUtil : Singleton<UIViewUtil>
 
 
         GameObject obj = null;
-        UIWindowBase uIWindow;
+        UIWindowViewBase uIWindow;
         if ( m_DicWindows.ContainsKey(windowUIType) ==false)
         {
             //窗口命名规则需要统一 “ pan_ + 窗口类型枚举名称 ”
@@ -52,7 +52,7 @@ public class UIViewUtil : Singleton<UIViewUtil>
 
             if (obj == null) return null;
 
-            uIWindow = obj.GetComponent<UIWindowBase>();
+            uIWindow = obj.GetComponent<UIWindowViewBase>();
 
             if (uIWindow == null) return null;
 
@@ -120,7 +120,7 @@ public class UIViewUtil : Singleton<UIViewUtil>
     /// </summary>
     /// <param name="uIWindow"></param>
     /// <param name="isOpen"></param>
-    private void StarWindowAnim(UIWindowBase uIWindow , bool isOpen)
+    private void StarWindowAnim(UIWindowViewBase uIWindow , bool isOpen)
     {
         switch (uIWindow.WindowShowStyle)
         {
@@ -153,7 +153,7 @@ public class UIViewUtil : Singleton<UIViewUtil>
     /// </summary>
     /// <param name="uIWindow"></param>
     /// <param name="isOpen"></param>
-    private void NormalAnim(UIWindowBase uIWindow, bool isOpen)
+    private void NormalAnim(UIWindowViewBase uIWindow, bool isOpen)
     {
         if (isOpen)
         {
@@ -170,7 +170,7 @@ public class UIViewUtil : Singleton<UIViewUtil>
     /// </summary>
     /// <param name="uIWindow"></param>
     /// <param name="isOpen"></param>
-    private void CenterToBigAnim(UIWindowBase uIWindow, bool isOpen)
+    private void CenterToBigAnim(UIWindowViewBase uIWindow, bool isOpen)
     {
         uIWindow.gameObject.SetActive(true);
         uIWindow.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
@@ -197,27 +197,27 @@ public class UIViewUtil : Singleton<UIViewUtil>
     /// <param name="uIWindow"></param>
     /// <param name="type">0表示从上边  1表示从下边 2表示从左边 3表示从右边</param>
     /// <param name="isOpen"></param>
-    private void FromToAnim(UIWindowBase uIWindow, int type,bool isOpen)
+    private void FromToAnim(UIWindowViewBase uIWindow, int type,bool isOpen)
     {
-        Vector3 targetPos = Vector3.zero;
+        Vector3 originPos = Vector3.zero;
         switch (type)
         {
             case 0:
-                targetPos = new Vector3(0, 1000, 0);
+                originPos = new Vector3(0, 1000, 0);
                 break;
             case 1:
-                targetPos = new Vector3(0, -1000, 0);
+                originPos = new Vector3(0, -1000, 0);
                 break;
             case 2:
-                targetPos = new Vector3(-1400, 0, 0);
+                originPos = new Vector3(-1400, 0, 0);
                 break;
             case 3:
-                targetPos = new Vector3(1400, 0, 0);
+                originPos = new Vector3(1400, 0, 0);
                 break;
         }
         uIWindow.gameObject.SetActive(true);
-        uIWindow.transform.localPosition = Vector3.zero;
-        uIWindow.transform.DOLocalMove(targetPos, uIWindow.Duration)
+        uIWindow.transform.localPosition = originPos;
+        uIWindow.transform.DOLocalMove(Vector3.zero, uIWindow.Duration)
                .SetEase(GlobalInit.Instance.UIAnimCurve)
                .SetAutoKill(false)
                .OnRewind(
@@ -240,7 +240,7 @@ public class UIViewUtil : Singleton<UIViewUtil>
     /// 删除窗口
     /// </summary>
     /// <param name="uIWindow"></param>
-    private void DestoryWindowUI(UIWindowBase uIWindow)
+    private void DestoryWindowUI(UIWindowViewBase uIWindow)
     {
         if (m_DicWindows.ContainsKey(uIWindow.CurrentUIType))
         {

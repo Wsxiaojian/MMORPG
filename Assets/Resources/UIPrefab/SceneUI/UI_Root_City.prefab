@@ -2332,7 +2332,7 @@ GameObject:
   - component: {fileID: 713629076157022952}
   - component: {fileID: 713629076157022955}
   - component: {fileID: 713629076157022954}
-  - component: {fileID: 4481432479861888031}
+  - component: {fileID: 131965096101997493}
   m_Layer: 5
   m_Name: UI_Root_City
   m_TagString: Untagged
@@ -2426,7 +2426,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4481432479861888031
+--- !u!114 &131965096101997493
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2435,7 +2435,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 713629076157022933}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c1845c8551d63e42bf1e628efbb7d90, type: 3}
+  m_Script: {fileID: 11500000, guid: ce7210b15b13d41a9a12b6b4ac233ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Center_Container: {fileID: 713629075992641235}

@@ -549,7 +549,7 @@ GameObject:
   - component: {fileID: 1272055851005338067}
   - component: {fileID: 1272055851005338076}
   - component: {fileID: 1272055851005338066}
-  - component: {fileID: 8221976278063071961}
+  - component: {fileID: 74633107461691652}
   m_Layer: 5
   m_Name: pan_RoleInfo
   m_TagString: Untagged
@@ -619,7 +619,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &8221976278063071961
+--- !u!114 &74633107461691652
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -628,14 +628,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1272055851005338064}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 391fbbe07d5976e40933cb4659ebed83, type: 3}
+  m_Script: {fileID: 11500000, guid: 4625e7cd054c34df489a79c7d75d6c3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   WindowUIContainerType: 0
-  WindowShowStyle: 4
+  WindowShowStyle: 1
   Duration: 0.2
   CurrentUIType: 0
-  NextWindowUIType: 0
+  IsOpenNext: 0
 --- !u!1 &1272055852454679796
 GameObject:
   m_ObjectHideFlags: 0
