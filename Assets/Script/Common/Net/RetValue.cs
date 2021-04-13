@@ -21,5 +21,5 @@ public class RetValue
     /// <summary>
     /// 结果数据
     /// </summary>
-    public string RetData;
+    public string Value;
 }

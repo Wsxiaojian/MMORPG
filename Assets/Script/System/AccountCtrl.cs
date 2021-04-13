@@ -5,6 +5,8 @@
 // 版本：1.0 
 // 备注：
 //***********************************************************
+using LitJson;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -93,23 +95,36 @@ public class AccountCtrl : Singleton<AccountCtrl>, ISystem
         string pwd = pams[1].ToString();
 
 
-        string oldNickName = PlayerPrefs.GetString(GlobalInit.MMO_NICKNAME);
-        string oldpwd = PlayerPrefs.GetString(GlobalInit.MMO_PWD);
+        Dictionary<string, object> dic = new Dictionary<string, object>();
+        dic["Type"] = 1;
+        dic["UserName"] = nickName;
+        dic["Pwd"] = pwd;
+
+        //当前玩家信息
+        GlobalInit.Instance.CurNickName = nickName;
 
 
-        if (nickName == oldNickName && pwd == oldpwd)
+        NetWorkHttp.Instance.SendData(GlobalInit.WebAccountUrl + "api/Account", LogonCallBack, isPost: true, dic: dic);
+    }
+
+    /// <summary>
+    /// 登陆后台回调
+    /// </summary>
+    /// <param name="obj"></param>
+    private void LogonCallBack(NetWorkHttp.CallBackArgs obj)
+    {
+        if (obj.HasError == true)
         {
-            GlobalInit.Instance.CurNickName = nickName;
-
-            //登陆成功  跳转主场景
-            SceneMgr.Instance.LoadMainCity();
+            Debug.Log(obj.ErrorMsg);
         }
         else
         {
-            //呢称或密码错误
-            m_UILogonView.SetErrorTip("呢称或密码输入错误！");
+            Debug.Log("登陆成功 " + obj.Data);
+            //切换场景
+            //SceneMgr.Instance.LoadMainCity();
         }
     }
+
     /// <summary>
     /// 去注册 界面
     /// </summary>
@@ -153,14 +168,37 @@ public class AccountCtrl : Singleton<AccountCtrl>, ISystem
             return;
         }
 
-        PlayerPrefs.SetString(GlobalInit.MMO_NICKNAME, nickName);
-        PlayerPrefs.SetString(GlobalInit.MMO_PWD, pwd);
+        //PlayerPrefs.SetString(GlobalInit.MMO_NICKNAME, nickName);
+        //PlayerPrefs.SetString(GlobalInit.MMO_PWD, pwd);
+
+        Dictionary<string, object> dic = new Dictionary<string, object>();
+        dic["Type"] = 0;
+        dic["UserName"] = nickName;
+        dic["Pwd"] = pwd;
+        dic["ChannelId"] = 1;
 
         //当前玩家信息
         GlobalInit.Instance.CurNickName = nickName;
 
-        //切换场景
-        SceneMgr.Instance.LoadMainCity();
+        NetWorkHttp.Instance.SendData(GlobalInit.WebAccountUrl + "api/Account", RegCallBack, isPost: true, dic: dic);
+    }
+
+    /// <summary>
+    /// 注册后台回调
+    /// </summary>
+    /// <param name="obj"></param>
+    private void RegCallBack(NetWorkHttp.CallBackArgs obj)
+    {
+        if (obj.HasError == true)
+        {
+            Debug.Log(obj.ErrorMsg);
+        }
+        else
+        {
+            Debug.Log("注册成功 "+obj.Data);
+            //切换场景
+            //SceneMgr.Instance.LoadMainCity();
+        }
     }
 
     /// <summary>

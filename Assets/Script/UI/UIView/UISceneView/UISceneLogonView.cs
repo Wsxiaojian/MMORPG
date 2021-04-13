@@ -24,7 +24,7 @@ public class UISceneLogonView : UISceneViewBase
 
     IEnumerator delayOpenLogOnWindow()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
 
         //打开登陆窗口
         UIViewMgr.Instance.OpenView(WindowUIType.LogOn);
