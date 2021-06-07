@@ -56,6 +56,6 @@ public class UIWindowBase : UIBase
     {
         LayerUIMgr.Instance.CheckOpenWindow();
         if (NextWindowUIType == WindowUIType.None) return;
-        UIViewUtil.Instance.OpenWindow(NextWindowUIType);
+        UIViewMgr.Instance.OpenView(NextWindowUIType);
     }
 }

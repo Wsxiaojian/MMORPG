@@ -16,15 +16,18 @@ public class UISceneLogOnCtrl : UISceneBase
     {
         base.OnStart();
 
+        Debug.Log("-------------00");
         //开启协程
-        StartCoroutine(delayOpenLogOnWindow());
+        //StartCoroutine(delayOpenLogOnWindow());
+        Debug.Break();
     }
 
-    IEnumerator delayOpenLogOnWindow()
-    {
-        yield return new WaitForSeconds(0.5f);
+    //IEnumerator delayOpenLogOnWindow()
+    //{
+    //    yield return new WaitForSeconds(0.5f);
 
-        //打开登陆窗口
-        UIViewUtil.Instance.OpenWindow(WindowUIType.LogOn);
-    }
+    //    //打开登陆窗口
+    //    //UIViewUtil.Instance.OpenWindow(WindowUIType.LogOn);
+    //    AccountCtrl.Instance.AutoLogon();
+    //}
 }

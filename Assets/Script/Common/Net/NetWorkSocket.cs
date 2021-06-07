@@ -204,8 +204,6 @@ public class NetWorkSocket : SingletonMono<NetWorkSocket>
     /// <param name="ar"></param>
     private void ReceiveCallBack(IAsyncResult ar)
     {
-
-
         try
         {
             int len = m_ClientSocket.EndReceive(ar);

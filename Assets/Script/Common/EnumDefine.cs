@@ -87,6 +87,22 @@ public enum SceneType
 }
 #endregion
 
+
+/// <summary>
+/// 提示信息显示类型
+/// </summary>
+public enum MessageViewType
+{
+    /// <summary>
+    /// 只显示ok
+    /// </summary>
+    MVT_OK,
+    /// <summary>
+    /// 显示Ok 和 Cancel
+    /// </summary>
+    MVT_OkAndCancel,
+}
+
 #region 场景UI类型 SceneUIType
 /// <summary>
 /// 场景UI类型
@@ -130,6 +146,15 @@ public enum WindowUIType
     /// 角色信息窗口
     /// </summary>
     RoleInfo,
+
+    /// <summary>
+    /// 游戏服进入
+    /// </summary>
+    GameServerEnter,
+    /// <summary>
+    /// 游戏区服选择
+    /// </summary>
+    GameServerSelect,
 }
 #endregion
 

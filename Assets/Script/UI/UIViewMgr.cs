@@ -19,9 +19,13 @@ public class UIViewMgr : Singleton<UIViewMgr>
     {
         m_Dic = new Dictionary<WindowUIType, ISystem>();
 
-
+        //账户相关
         m_Dic.Add(WindowUIType.LogOn, AccountCtrl.Instance);
         m_Dic.Add(WindowUIType.Reg, AccountCtrl.Instance);
+
+        //游戏区服相关
+        m_Dic.Add(WindowUIType.GameServerEnter, GameServerCtrl.Instance);
+        m_Dic.Add(WindowUIType.GameServerSelect, GameServerCtrl.Instance);
     }
 
 

@@ -8,6 +8,20 @@
 
 public class ConstDef 
 {
+    #region  Key
+    /// <summary>
+    /// 账户Id
+    /// </summary>
+    public const string GameServerAccountId = "GameServerAccountId";
+    /// <summary>
+    /// 用户名
+    /// </summary>
+    public const string GameServerAccountUserName = "GameServerAccountUserName";
+    /// <summary>
+    /// 密码
+    /// </summary>
+    public const string GameServerAccountPwd = "GameServerAccountPwd";
+    #endregion
 
     #region UILogonView
     /// <summary>
@@ -29,5 +43,28 @@ public class ConstDef
     /// 去注册按钮事件
     /// </summary>
     public const string UIRegView_Btn_ToLogOn = "UIRegView_Btn_ToLogOn";
+    #endregion
+
+
+    #region GameServerEnterView
+    /// <summary>
+    /// 选择服务器按钮事件
+    /// </summary>
+    public const string UIGameServerEnterView_Btn_SelectServer = "UIGameServerEnterView_Btn_SelectServer";
+    /// <summary>
+    /// 进入游戏按钮事件
+    /// </summary>
+    public const string UIGameServerEnterView_Btn_EnterGame = "UIGameServerEnterView_Btn_EnterGame";
+    #endregion
+
+    #region GameServerSelectView
+    /// <summary>
+    /// 点击页卡按钮
+    /// </summary>
+    public const string UIGameServerSelectView_Btn_ClickPage = "UIGameServerSelectView_Btn_ClickPage";
+    /// <summary>
+    /// 点击区服按钮
+    /// </summary>
+    public const string UIGameServerSelectView_Btn_ClickServer= "UIGameServerSelectView_Btn_ClickServer";
     #endregion
 }

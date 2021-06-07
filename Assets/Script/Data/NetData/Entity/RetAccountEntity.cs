@@ -12,19 +12,37 @@ using System;
   /// </summary>
 public class RetAccountEntity
 {
-    public int Id { get; set; }
+    /// <summary>
+    /// 账户id
+    /// </summary>
+    public int Id;
+    /// <summary>
+    /// 用户名
+    /// </summary>
+    public string UserName;
+    /// <summary>
+    /// 密码
+    /// </summary>
+    public string Pwd;
+    /// <summary>
+    /// 元宝数量
+    /// </summary>
+    public int Yuanbao;
+    /// <summary>
+    /// 最后登陆服务器id
+    /// </summary>
+    public int LastLogonServerId;
+    /// <summary>
+    /// 最后登陆服务器名称
+    /// </summary>
+    public string LastLogOnServerName;
+    /// <summary>
+    /// 最后登陆服务器ip
+    /// </summary>
+    public string LastLogOnServerIp;
+    /// <summary>
+    /// 最后登陆服务器端口
+    /// </summary>
+    public int LastLogOnServerPort;
 
-    public string UserName { get; set; }
-
-    public string Pwd { get; set; }
-
-    public int Yuanbao { get; set; }
-
-    public int LastServerId { get; set; }
-
-    public string LastServerName { get; set; }
-
-    public DateTime CreateTime { get; set; }
-
-    public DateTime UpdateTime { get; set; }
 }

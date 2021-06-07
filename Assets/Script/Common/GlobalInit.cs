@@ -25,7 +25,7 @@ public class GlobalInit : MonoBehaviour
     /// <summary>
     /// web 账号服务器Url
     /// </summary>
-    public const string WebAccountUrl = "http://192.168.81.149:8080/";
+    public const string WebAccountUrl = "http://192.168.81.200:8080/";
     #endregion
 
 
@@ -58,6 +58,11 @@ public class GlobalInit : MonoBehaviour
     }
 
     /// <summary>
+    /// 当前用户登陆实体
+    /// </summary>
+    public RetAccountEntity CurAccountEntity;
+
+    /// <summary>
     /// 当前玩家信息
     /// </summary>
     public string CurNickName;
@@ -65,6 +70,8 @@ public class GlobalInit : MonoBehaviour
     /// 当前玩家
     /// </summary>
     public RoleCtrl CurPlayer;
+
+
 
 
     public static GlobalInit  Instance;

@@ -5,6 +5,7 @@
 // 版本：1.0 
 // 备注：
 //***********************************************************
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,6 +34,8 @@ public class UIViewBase : MonoBehaviour
         }
 
         OnStart();
+
+        if (OnShowCallBack != null) OnShowCallBack();
     }
 
 
@@ -60,4 +63,10 @@ public class UIViewBase : MonoBehaviour
     /// </summary>
     /// <param name="btn"></param>
     protected virtual void OnBtnClick(GameObject btnGo) { }
+
+
+    /// <summary>
+    /// 页面打开时回调
+    /// </summary>
+    public Action OnShowCallBack;
 }

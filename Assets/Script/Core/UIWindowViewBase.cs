@@ -32,24 +32,24 @@ public class UIWindowViewBase : UIViewBase
     [HideInInspector]
     public WindowUIType CurrentUIType;
 
-    /// <summary>
-    /// 是否打开下一个窗口 
-    ///     主要用于 界面跳转 上一个界面动画完成 再播放下一界面动画
-    /// </summary>
-    [HideInInspector]
-    public bool IsOpenNext;
 
     /// <summary>
-    /// 打开下一个窗口委托
+    /// 下一个打开窗口类型
     /// </summary>
-    public System.Action OpenNextWidow;
+    public WindowUIType NextUIType;
+
 
     /// <summary>
     ///  关闭窗口
     /// </summary>
-    public virtual void Close(bool isOpenNext)
+    public virtual void Close()
     {
-        IsOpenNext = isOpenNext;
+        UIViewUtil.Instance.CloseWindow(CurrentUIType);
+    }
+
+    public virtual void Close(WindowUIType nextUIType)
+    {
+        NextUIType = nextUIType;
         UIViewUtil.Instance.CloseWindow(CurrentUIType);
     }
 
@@ -59,9 +59,10 @@ public class UIWindowViewBase : UIViewBase
     protected override void BeforeDestroy()
     {
         LayerUIMgr.Instance.CheckOpenWindow();
-        if (IsOpenNext && OpenNextWidow!=null)
+
+        if(NextUIType!= WindowUIType.None)
         {
-            OpenNextWidow();
+            UIViewMgr.Instance.OpenView(NextUIType);
         }
     }
 
@@ -74,7 +75,7 @@ public class UIWindowViewBase : UIViewBase
         if(btnGo.name.Equals("Btn_Close", System.StringComparison.CurrentCultureIgnoreCase))
         {
             //关闭窗口
-            Close(false);
+            Close();
         }
     }
 }

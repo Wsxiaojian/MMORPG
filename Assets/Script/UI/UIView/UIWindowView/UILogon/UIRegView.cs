@@ -60,12 +60,12 @@ public class UIRegView : UIWindowViewBase
         }
     }
 
-    /// <summary>
-    /// 设置错误信息提示
-    /// </summary>
-    /// <param name="errorTip"></param>
-    public void SetErrorTip(string errorTip)
-    {
-        Txt_InputTip.text = errorTip;
-    }
+    ///// <summary>
+    ///// 设置错误信息提示
+    ///// </summary>
+    ///// <param name="errorTip"></param>
+    //public void SetErrorTip(string errorTip)
+    //{
+    //    Txt_InputTip.text = errorTip;
+    //}
 }

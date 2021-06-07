@@ -16,7 +16,7 @@ using UnityEngine;
 ///     登录界面控制
 ///     注册界面控制
 /// </summary>
-public class AccountCtrl : Singleton<AccountCtrl>, ISystem
+public class AccountCtrl : SystemBaseCtr<AccountCtrl>, ISystem
 {
     /// <summary>
     /// 登录窗口
@@ -31,20 +31,20 @@ public class AccountCtrl : Singleton<AccountCtrl>, ISystem
     public AccountCtrl()
     {
         //添加UI事件监听
-        UIDispatcher.Instance.AddListenter(ConstDef.UILogonView_Btn_LogOn, UILogonView_BtnLog_ClickCallBack);
-        UIDispatcher.Instance.AddListenter(ConstDef.UILogonView_Btn_ToReg, UILogonView_Btn_ToReg_ClickCallBack);
-        UIDispatcher.Instance.AddListenter(ConstDef.UIRegView_Btn_Reg, UIRegView_Btn_Reg_ClickCallBack);
-        UIDispatcher.Instance.AddListenter(ConstDef.UIRegView_Btn_ToLogOn, UIRegView_Btn_ToLogOn_ClickCallBack);
+        AddListenter(ConstDef.UILogonView_Btn_LogOn, UILogonView_BtnLog_ClickCallBack);
+        AddListenter(ConstDef.UILogonView_Btn_ToReg, UILogonView_Btn_ToReg_ClickCallBack);
+        AddListenter(ConstDef.UIRegView_Btn_Reg, UIRegView_Btn_Reg_ClickCallBack);
+        AddListenter(ConstDef.UIRegView_Btn_ToLogOn, UIRegView_Btn_ToLogOn_ClickCallBack);
     }
 
     public override void Dispose()
     {
         base.Dispose();
         //移除UI事件监听
-        UIDispatcher.Instance.RemoveListenter(ConstDef.UILogonView_Btn_LogOn, UILogonView_BtnLog_ClickCallBack);
-        UIDispatcher.Instance.RemoveListenter(ConstDef.UILogonView_Btn_ToReg, UILogonView_Btn_ToReg_ClickCallBack);
-        UIDispatcher.Instance.RemoveListenter(ConstDef.UIRegView_Btn_Reg, UIRegView_Btn_Reg_ClickCallBack);
-        UIDispatcher.Instance.RemoveListenter(ConstDef.UIRegView_Btn_ToLogOn, UIRegView_Btn_ToLogOn_ClickCallBack);
+        RemoveListenter(ConstDef.UILogonView_Btn_LogOn, UILogonView_BtnLog_ClickCallBack);
+        RemoveListenter(ConstDef.UILogonView_Btn_ToReg, UILogonView_Btn_ToReg_ClickCallBack);
+        RemoveListenter(ConstDef.UIRegView_Btn_Reg, UIRegView_Btn_Reg_ClickCallBack);
+        RemoveListenter(ConstDef.UIRegView_Btn_ToLogOn, UIRegView_Btn_ToLogOn_ClickCallBack);
     }
     #endregion
 
@@ -72,7 +72,6 @@ public class AccountCtrl : Singleton<AccountCtrl>, ISystem
     private void OpenLogonView()
     {
         m_UILogonView = UIViewUtil.Instance.OpenWindow(WindowUIType.LogOn).GetComponent<UILogonView>();
-        m_UILogonView.OpenNextWidow = OpenRegView;
     }
     /// <summary>
     /// 打开注册界面
@@ -80,9 +79,138 @@ public class AccountCtrl : Singleton<AccountCtrl>, ISystem
     private void OpenRegView()
     {
         m_UIRegView = UIViewUtil.Instance.OpenWindow(WindowUIType.Reg).GetComponent<UIRegView>();
-        m_UIRegView.OpenNextWidow = OpenLogonView;
     }
     #endregion
+
+    /// <summary>
+    /// 自动登陆
+    /// </summary>
+    public void AutoLogon()
+    {
+        //1.存在账号 自动登陆
+        if (PlayerPrefs.HasKey(ConstDef.GameServerAccountId))
+        {
+            //自动登陆
+            string userName = PlayerPrefs.GetString(ConstDef.GameServerAccountUserName);
+            string pwd = PlayerPrefs.GetString(ConstDef.GameServerAccountPwd);
+            RequestLogonGameServer(userName, pwd);
+        }
+        //2.不存在  弹出登陆窗口
+        else
+        {
+            OpenLogonView();
+        }
+    }
+
+    # region 请求服务器
+    private void RequestLogonGameServer(string userName, string pwd)
+    {
+        Dictionary<string, object> dic = new Dictionary<string, object>();
+        dic["Type"] = 1;
+        dic["UserName"] = userName;
+        dic["Pwd"] = pwd;
+
+        NetWorkHttp.Instance.SendData(GlobalInit.WebAccountUrl + "api/Account", LogonCallBack, isPost: true, dic: dic);
+    }
+    /// <summary>
+    /// 登陆后台回调
+    /// </summary>
+    /// <param name="obj"></param>
+    private void LogonCallBack(NetWorkHttp.CallBackArgs obj)
+    {
+        if (obj.HasError == true)
+        {
+            AppLog.Log(obj.ErrorMsg);
+        }
+        else
+        {
+            //登陆成功
+            RetValue ret = JsonMapper.ToObject<RetValue>(obj.Data);
+            if (ret.HasError == false)
+            {
+
+               RetAccountEntity retAccountEntity = JsonMapper.ToObject<RetAccountEntity>(ret.Value);
+
+                PlayerPrefs.SetInt(ConstDef.GameServerAccountId, retAccountEntity.Id);
+                PlayerPrefs.SetString(ConstDef.GameServerAccountUserName, retAccountEntity.UserName);
+                PlayerPrefs.SetString(ConstDef.GameServerAccountPwd, retAccountEntity.Pwd);
+
+                GlobalInit.Instance.CurAccountEntity = retAccountEntity;
+
+                //进入游戏服 进入 界面
+                if (m_UILogonView != null)
+                {
+                    m_UILogonView.Close(WindowUIType.GameServerEnter);
+                }
+                else
+                {
+                    UIViewMgr.Instance.OpenView(WindowUIType.GameServerEnter);
+                }
+            }
+            else
+            {
+                AppLog.Log(ret.ErrorMsg);
+                OpenLogonView();
+            }
+        }
+    }
+    
+    /// <summary>
+    /// 请求 注册账号
+    /// </summary>
+    private void RequestRegisterAccount(string userName,string pwd,string channelId)
+    {
+        Dictionary<string, object> dic = new Dictionary<string, object>();
+        dic["Type"] = 0;
+        dic["UserName"] = userName;
+        dic["Pwd"] = pwd;
+        dic["ChannelId"] = channelId;
+       
+        NetWorkHttp.Instance.SendData(GlobalInit.WebAccountUrl + "api/Account", RegisterCallBack, isPost: true, dic: dic);
+    }
+    /// <summary>
+    /// 注册后台回调
+    /// </summary>
+    /// <param name="obj"></param>
+    private void RegisterCallBack(NetWorkHttp.CallBackArgs obj)
+    {
+        if (obj.HasError == true)
+        {
+            AppLog.Log(obj.ErrorMsg);
+        }
+        else
+        {
+            //登陆成功
+            RetValue ret = JsonMapper.ToObject<RetValue>(obj.Data);
+            if (ret.HasError == false)
+            {
+
+                RetAccountEntity retAccountEntity = JsonMapper.ToObject<RetAccountEntity>(ret.Value);
+
+                PlayerPrefs.SetInt(ConstDef.GameServerAccountId , retAccountEntity.Id);
+                PlayerPrefs.SetString(ConstDef.GameServerAccountUserName, retAccountEntity.UserName);
+                PlayerPrefs.SetString(ConstDef.GameServerAccountPwd , retAccountEntity.Pwd);
+
+                GlobalInit.Instance.CurAccountEntity = retAccountEntity;
+
+                //进入游戏服 进入 界面
+                if (m_UIRegView != null)
+                {
+                    m_UIRegView.Close(WindowUIType.GameServerEnter);
+                }
+                else
+                {
+                    UIViewMgr.Instance.OpenView(WindowUIType.GameServerEnter);
+                }
+            }
+            else
+            {
+                AppLog.Log(ret.ErrorMsg);
+            }
+        }
+    }
+    #endregion
+
 
     //----------------------------UI事件回调----------------------------------------------
 
@@ -94,35 +222,7 @@ public class AccountCtrl : Singleton<AccountCtrl>, ISystem
         string nickName = pams[0].ToString();
         string pwd = pams[1].ToString();
 
-
-        Dictionary<string, object> dic = new Dictionary<string, object>();
-        dic["Type"] = 1;
-        dic["UserName"] = nickName;
-        dic["Pwd"] = pwd;
-
-        //当前玩家信息
-        GlobalInit.Instance.CurNickName = nickName;
-
-
-        NetWorkHttp.Instance.SendData(GlobalInit.WebAccountUrl + "api/Account", LogonCallBack, isPost: true, dic: dic);
-    }
-
-    /// <summary>
-    /// 登陆后台回调
-    /// </summary>
-    /// <param name="obj"></param>
-    private void LogonCallBack(NetWorkHttp.CallBackArgs obj)
-    {
-        if (obj.HasError == true)
-        {
-            Debug.Log(obj.ErrorMsg);
-        }
-        else
-        {
-            Debug.Log("登陆成功 " + obj.Data);
-            //切换场景
-            //SceneMgr.Instance.LoadMainCity();
-        }
+        RequestLogonGameServer(nickName, pwd);
     }
 
     /// <summary>
@@ -130,7 +230,7 @@ public class AccountCtrl : Singleton<AccountCtrl>, ISystem
     /// </summary>
     private void UILogonView_Btn_ToReg_ClickCallBack(params object[] pams)
     {
-        m_UILogonView.Close(true);
+        m_UILogonView.Close(WindowUIType.Reg);
     }
 
     /// <summary>
@@ -145,60 +245,31 @@ public class AccountCtrl : Singleton<AccountCtrl>, ISystem
         if (string.IsNullOrEmpty(nickName))
         {
             //呢称不能为空
-            m_UIRegView.SetErrorTip("呢称不能为空！");
+            ShowMessage("注册提示", "呢称不能为空！");
             return;
         }
         if (string.IsNullOrEmpty(pwd))
         {
             //密码不能为空
-            m_UIRegView.SetErrorTip("确认密码不能为空！");
+            ShowMessage("注册提示", "确认密码不能为空！");
             return;
         }
         if (string.IsNullOrEmpty(surePwd))
         {
             //确认密码不能为空
-            m_UIRegView.SetErrorTip("确认密码不能为空！");
+            ShowMessage("注册提示", "确认密码不能为空！");
             return;
         }
 
         if (pwd != surePwd)
         {
             //两次密码输入不一致
-            m_UIRegView.SetErrorTip("两次密码输入不一致！");
+            ShowMessage("注册提示", "两次密码输入不一致！");
             return;
         }
 
-        //PlayerPrefs.SetString(GlobalInit.MMO_NICKNAME, nickName);
-        //PlayerPrefs.SetString(GlobalInit.MMO_PWD, pwd);
-
-        Dictionary<string, object> dic = new Dictionary<string, object>();
-        dic["Type"] = 0;
-        dic["UserName"] = nickName;
-        dic["Pwd"] = pwd;
-        dic["ChannelId"] = 1;
-
-        //当前玩家信息
-        GlobalInit.Instance.CurNickName = nickName;
-
-        NetWorkHttp.Instance.SendData(GlobalInit.WebAccountUrl + "api/Account", RegCallBack, isPost: true, dic: dic);
-    }
-
-    /// <summary>
-    /// 注册后台回调
-    /// </summary>
-    /// <param name="obj"></param>
-    private void RegCallBack(NetWorkHttp.CallBackArgs obj)
-    {
-        if (obj.HasError == true)
-        {
-            Debug.Log(obj.ErrorMsg);
-        }
-        else
-        {
-            Debug.Log("注册成功 "+obj.Data);
-            //切换场景
-            //SceneMgr.Instance.LoadMainCity();
-        }
+        //请求服务器 注册账号
+        RequestRegisterAccount(nickName, pwd, "1");
     }
 
     /// <summary>
@@ -206,7 +277,7 @@ public class AccountCtrl : Singleton<AccountCtrl>, ISystem
     /// </summary>
     private void UIRegView_Btn_ToLogOn_ClickCallBack(params object[] pams)
     {
-        m_UIRegView.Close(true);
+        m_UIRegView.Close(WindowUIType.LogOn);
     }
 
     //----------------------------UI事件回调----------------------------------------------
